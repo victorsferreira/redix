@@ -1,6 +1,6 @@
 import React from 'react';
 import { Sidebar } from "./Sidebar";
-import { Form } from "./Form";
+import { Topbar } from "./Topbar";
 
 export class Connection extends React.Component {
   render() {
@@ -8,7 +8,7 @@ export class Connection extends React.Component {
       <div className="Create">
         <Sidebar />
         <div>
-        
+          <Topbar />
         </div>
       </div>
     );

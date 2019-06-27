@@ -11,3 +11,11 @@ export interface IConnection {
 export interface IConnectionCollection extends Array<IConnection> {}
 
 export interface IConnectionRequest extends Remove<IConnection, "id"> { }
+
+export enum Command {
+    GET = "get",
+    SET = "set",
+    DELETE = "delete",
+    SEARCH = "search",
+    FLUSH = "flush",
+}

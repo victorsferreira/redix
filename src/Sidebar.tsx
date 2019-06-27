@@ -60,6 +60,7 @@ export class Sidebar extends React.Component<IProps, IState> {
                 }
 
                 <Link to="/create">Create new connection</Link>
+                <Link to="/connection">connection</Link>
             </div>
         );
     }
