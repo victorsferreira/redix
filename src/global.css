@@ -1,0 +1,133 @@
+body, html{
+    padding: 0;
+    margin: 0;
+}
+
+* {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-size: 16px;
+    box-sizing: border-box;
+    letter-spacing: .2px;
+}
+
+.sidebar{
+    height: 100vh;
+    width: 25%;
+    float: left;
+    background: #2c3e50;
+    padding: 15px 10px;
+    overflow-x: auto;
+
+}
+
+.content{
+    height: 100vh;
+    width: 75%;
+    float: left;
+    background: #34495e;
+}
+
+.connection-item .name{
+    cursor: pointer;
+}
+
+.topbar, .connection-form{
+    background: #7f8c8d;    
+    width: 100%;
+    padding: 20px;
+}
+
+input[type="text"], input[type="password"], select{
+    width: 40%;
+    padding: 8px;
+    color: #2c3e50;
+    border: 0;
+    outline: 0;
+    margin: 2px;
+    border-radius: 5px;
+}
+
+select {
+    padding: 7px;
+}
+
+button, .button{
+    cursor: pointer;
+    background: #f1c40f;
+    padding: 8px;
+    border: 0;
+    text-transform: uppercase;
+    border-radius: 5px;
+    margin: 2px;
+    font-weight: bold;
+}
+
+a.button{
+    text-decoration: none;
+}
+
+button svg, .button svg{
+    margin-left: 5px;
+}
+
+.connection-item{
+    border-radius: 5px;
+    padding: 5px;
+    float: left;
+    width: 100%;
+}
+
+.connection-item:hover{
+    background: #7f8c8d; 
+}
+
+.connection-item span{
+    display: inline-block;
+    width: 75%;
+}
+
+.connection-item .controls{
+    width: 25%;
+    display: inline-block;
+}
+
+.connection-item .controls .button{
+    padding: 0;
+    background: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin-left: 5px;
+}
+
+.connection-item .controls .button svg{
+    margin-left: 0px;
+}
+
+.connection-item .controls .button:hover{
+    background: #f1c40f;    
+}
+
+.button.create-connection{
+    float: left;
+    margin-left: 0px;
+}
+
+h2{
+    font-size: 26px;
+}
+
+.home-content{
+    padding: 0px 20px;
+}
+
+.result-set header{
+    background: #2c3e50;
+    padding: 10px;
+}
+
+.result-set header .show-as-json{
+    float: right;
+}

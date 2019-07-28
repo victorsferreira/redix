@@ -1,13 +1,13 @@
 import React from "react";
 import { IConnectionCollection } from "./types";
 import { ConnectionsProvider } from "./ConnectionsProvider";
-import ConnectionsStore from "./ConnectionsStore";
 import { inject, observer } from "mobx-react";
 import { Link } from "react-router-dom";
+import { history } from "./history";
+import { IConnectionObserverProps, CustomComponent } from "./CustomComponent";
+import { Button } from "./Button";
 
-interface IProps {
-    connectionsStore?: any
-}
+interface IProps extends IConnectionObserverProps { }
 
 interface IState {
     connections: IConnectionCollection
@@ -15,7 +15,7 @@ interface IState {
 
 @inject("connectionsStore")
 @observer
-export class Sidebar extends React.Component<IProps, IState> {
+export class Sidebar extends CustomComponent<IProps, IState> {
     private provider: ConnectionsProvider;
     private store: any;
 
@@ -36,7 +36,11 @@ export class Sidebar extends React.Component<IProps, IState> {
     }
 
     goToEdit(id) {
-        this.provider.delete(id);
+        history.push('/edit', { id });
+    }
+
+    openConnection(id) {
+        history.push('/connection', { id });
     }
 
     goToCreate(id) {
@@ -46,21 +50,30 @@ export class Sidebar extends React.Component<IProps, IState> {
     render() {
         const { connections } = this.props.connectionsStore;
         return (
-            <div>
-                {
-                    connections.map((connection, i) => {
-                        return (
-                            <div className="connection-item" key={i}>
-                                <span className="name">{connection.name}</span>
-                                <button onClick={this.delete.bind(this, connection.id)}>Delete</button>
-                                <button onClick={this.goToEdit.bind(this, connection.id)}>Edit</button>
-                            </div>
-                        );
-                    })
-                }
+            <div className="sidebar">
+                <div className="connection-list">
+                    {
+                        connections.map((connection, i) => {
+                            return (
+                                <div className="connection-item" key={i}>
+                                    <span onClick={this.openConnection.bind(this, connection.id)} className="name">{connection.name}</span>
+                                    <div className="controls">
+                                        <Button icon="delete" onClick={this.delete.bind(this, connection.id)}>
+                                            {/* Delete */}
+                                        </Button>
+                                        <Button icon="edit" onClick={this.goToEdit.bind(this, connection.id)}>
+                                            {/* Edit */}
+                                        </Button>
+                                    </div>
+                                </div>
+                            );
+                        })
+                    }
+                </div>
 
-                <Link to="/create">Create new connection</Link>
-                <Link to="/connection">connection</Link>
+                <Button className="create-connection" link="/create" icon="new">
+                    Create connection
+                </Button>
             </div>
         );
     }

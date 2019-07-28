@@ -12,10 +12,18 @@ export interface IConnectionCollection extends Array<IConnection> {}
 
 export interface IConnectionRequest extends Remove<IConnection, "id"> { }
 
-export enum Command {
-    GET = "get",
-    SET = "set",
-    DELETE = "delete",
-    SEARCH = "search",
-    FLUSH = "flush",
+export enum ICommand {
+    GET = "GET",
+    SET = "SET",
+    DELETE = "DELETE",
+    SEARCH = "SEARCH",
+    FLUSH = "FLUSH",
+    EXPIRE = "EXPIRE",
+}
+
+export enum IInput{
+    PATTERN='PATTERN',
+    KEY='KEY',
+    VALUE='VALUE',
+    TTL='TTL',
 }

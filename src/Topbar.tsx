@@ -1,43 +1,47 @@
 import React from "react";
-import { Command } from "./types";
-import { ConnectionsProvider } from "./ConnectionsProvider";
+import { ICommand } from "./types";
+import { Button } from "./Button";
 
-interface IProps { }
+interface IProps {
+    run: (string, any) => {}
+}
 
 interface IState {
     key: string;
     value: string;
     pattern: string;
-    command: Command;
+    ttl: number;
+    command: ICommand;    
 }
 
 export class Topbar extends React.Component<IProps, IState> {
-    // private provider: ConnectionsProvider;
     private commandInputs: object;
 
     constructor(props) {
         super(props);
 
-        // this.provider = new ConnectionsProvider();
-
         this.state = {
-            command: Command.GET,
+            command: ICommand.GET,
             pattern: '',
             value: '',
             key: '',
+            ttl: null,
         };
 
         this.commandInputs = {
-            set: ['key', 'value'],
-            get: ['key'],
-            delete: ['key'],
-            search: ['pattern'],
-            flush: [],
+            SET: ['KEY', 'VALUE', 'TTL'],
+            GET: ['KEY'],
+            DELETE: ['KEY'],
+            SEARCH: ['PATTERN'],
+            FLUSH: [],
+            EXPIRE: [],
         };
     }
 
     run() {
-        console.log(this.state)
+        const { pattern, key, value, ttl } = this.state;
+        const input = { pattern, key, value, ttl };
+        this.props.run(this.state.command, input);
     }
 
     onChangeHandler(fieldName, e) {
@@ -59,20 +63,27 @@ export class Topbar extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <form>
-                { this.shouldShowInput('pattern') && <input onChange={this.onChangeHandler.bind(this, 'pattern')} placeholder="Pattern" /> }
-                { this.shouldShowInput('key') && <input onChange={this.onChangeHandler.bind(this, 'key')} placeholder="Key" /> }
-                { this.shouldShowInput('value') && <input onChange={this.onChangeHandler.bind(this, 'value')} placeholder="Value" /> }
-                
+            <form className="topbar">
+                {this.shouldShowInput('PATTERN') && <input type="text" onChange={this.onChangeHandler.bind(this, 'PATTERN')} placeholder="Pattern" />}
+                {this.shouldShowInput('KEY') && <input type="text" onChange={this.onChangeHandler.bind(this, 'KEY')} placeholder="Key" />}
+                {this.shouldShowInput('VALUE') && <input type="text" onChange={this.onChangeHandler.bind(this, 'VALUE')} placeholder="Value" />}
+                {this.shouldShowInput('TTL') && <input type="text" onChange={this.onChangeHandler.bind(this, 'TTL')} placeholder="Time to live" />}
+
                 <select onChange={this.onChangeHandler.bind(this, 'command')} >
-                    <option value="get">Get</option>
-                    <option value="set">Set</option>
-                    <option value="search">Search</option>
-                    <option value="delete">Delete</option>
-                    <option value="flush">Flush</option>
+                    <option value="GET">Get</option>
+                    <option value="SET">Set</option>
+                    <option value="SEARCH">Search</option>
+                    <option value="DELETE">Delete</option>
+                    <option value="FLUSH">Flush</option>
+                    {/* <option value="EXPIRE">Expire</option> */}
                 </select>
 
-                <button type="button" onClick={this.run.bind(this)}>Run</button>
+                <Button
+                    icon="run"
+                    onClick={this.run.bind(this)}
+                >
+                    Run
+                </Button>
             </form>
         );
     }

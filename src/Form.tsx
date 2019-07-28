@@ -1,6 +1,8 @@
 import React from "react";
 import { IConnection, IConnectionRequest } from "./types";
 import { ConnectionsProvider } from "./ConnectionsProvider";
+import { history } from "./history";
+import { Button } from "./Button";
 
 interface IProps {
     data?: IConnection;
@@ -34,17 +36,25 @@ export class Form extends React.Component<IProps, IState> {
             // Create
             this.provider.create(this.state);
         }
+
+        history.push("/home");
     }
 
     render() {
+        const data: any = this.props.data || {};
         return (
-            <form>
-                <input onChange={this.onChangeHandler.bind(this, 'name')} placeholder="Name" />
-                <input onChange={this.onChangeHandler.bind(this, 'host')} placeholder="Host" />
-                <input onChange={this.onChangeHandler.bind(this, 'port')} placeholder="Port" />
-                <input onChange={this.onChangeHandler.bind(this, 'password')} placeholder="Password" type="password" />
+            <form className="connection-form">
+                <input defaultValue={data.name} onChange={this.onChangeHandler.bind(this, 'name')} placeholder="Name" type="text" />
+                <input defaultValue={data.host} onChange={this.onChangeHandler.bind(this, 'host')} placeholder="Host" type="text" />
+                <input defaultValue={data.port} onChange={this.onChangeHandler.bind(this, 'port')} placeholder="Port" type="text" />
+                <input defaultValue={data.password} onChange={this.onChangeHandler.bind(this, 'password')} placeholder="Password" type="password" />
 
-                <button type="button" onClick={this.save.bind(this)}>Save</button>
+                <Button 
+                    onClick={this.save.bind(this)}
+                    icon="save"
+                    >
+                    Save
+                </Button>
             </form>
         );
     }
