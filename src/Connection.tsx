@@ -31,6 +31,10 @@ export class Connection extends CustomComponent<any, IState> {
   componentDidMount() {
     const id = this.getRouteParam('id');
     const connection = this.provider.getById(id);
+    if(!connection) {
+      this.go('/home');
+      return;
+    }
 
     this.setState({ connection });
 

@@ -18,7 +18,7 @@ export class CustomComponent<U, T> extends React.Component<U, T> {
         this.history = history;
     }
 
-    go(path, params) {
+    go(path, params = {}) {
         this.history.push(path, params);
     }
 

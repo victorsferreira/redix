@@ -1,15 +1,16 @@
-const redis: any = {};
-// import * as redis from 'redis;'
+// const redis: any = {};
+import * as loader from './loader';
+const redis = loader.get('redis');
 
 export class RedisClient {
     private redis: any;
 
     constructor() {
+        console.log("CRIOU OUTRA")
 
     }
 
-    async connect(config) {
-        return true;
+    async connect(config: any = {}) {
         if (this.redis) {
             // Disconnect if it is already connected
             this.redis.end();
@@ -17,43 +18,62 @@ export class RedisClient {
 
         const { host, port, username, password } = config;
         this.redis = await redis.createClient({
-            host, port, username, password
+            host, port, username, password,
+            retry_strategy: (options) => {
+                if (options.error) {
+                    alert(`ERROR: ${options.error.code}`);
+                }
+
+                return false;
+            }
         });
 
         console.log("Redis has connected");
     }
 
-    flushAll() {
-        return true;
-
-        return this.redis.flushAll();
+    flushAll(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.redis.flushdb((err, data) => {
+                if (err) reject(err);
+                else resolve(data);
+            });
+        });
     }
 
-    get(key) {
-        return JSON.stringify({ name: "Victor", country: "br" });
-        return this.redis.get(key);
+    get(key): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.redis.get(key, (err, data) => {
+                if (err) reject(err);
+                else resolve(data);
+            });
+        });
     }
 
-    delete(key) {
-        return this.redis.del(key);
+    delete(key): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.redis.del(key, (err, data) => {
+                if (err) reject(err);
+                else resolve(data);
+            });
+        });
     }
 
-    getByPattern(pattern) {
-        const keys = [
-            "Victor",
-            "John",
-            "Fernando",
-            "Lee",
-        ];
-
-        return keys;
-
-        this.redis.keys(`*${pattern}*`);
+    getByPattern(pattern): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.redis.keys(`*${pattern}*`, (err, data) => {
+                if (err) reject(err);
+                else resolve(data);
+            });
+        });
     }
 
-    set(key, value) {
-        return true;
-        return this.redis.set(key, value);
+    set(key, value): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.redis.set(key, value, (err, data) => {
+                if (err) reject(err);
+                else resolve(data);
+            });
+        });
     }
 }
 

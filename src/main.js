@@ -5,6 +5,9 @@ const isDev = process.env.NODE_ENV === 'dev';
 let win;
 
 function createWindow() {
+    // app.getPath('userData');
+    // win.loadFile('./src/index.html');
+    
     win = new BrowserWindow({
         width: 800,
         height: 600,
@@ -13,16 +16,15 @@ function createWindow() {
         }
     });
 
-    win.loadURL(isDev ?
-        'http://localhost:3000' :
-        `file://${path.join(__dirname, '../build/index.html')}`
-    );
+    const url = isDev ?
+    'http://localhost:3000/' :
+    `file://${path.join(__dirname, '../build/index.html')}`;
+
+    win.loadURL(url);
 
     if (isDev) {
         win.webContents.openDevTools();
     }
-
-    //win.loadFile('./src/index.html');
 
     win.on('closed', () => {
         win = null
