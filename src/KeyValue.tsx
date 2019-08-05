@@ -26,11 +26,12 @@ export class KeyValue extends CustomComponent<IProps, IState> {
             recordKey: "",
             value: null,
             showAsJson: false,
-        }
+        };
+
+        this.redisClient = redisClient;
     }
 
     getValue = async () => {
-        if (!this.redisClient) this.redisClient = redisClient;
         const value = await this.redisClient.get(this.state.recordKey);
         this.setState({ value });
     }
@@ -56,7 +57,7 @@ export class KeyValue extends CustomComponent<IProps, IState> {
 
     render() {
         return (
-            <div>
+            <div className="key-value-item">
                 <div className="key">{this.state.recordKey}</div>
                 <div className="value">
                     {

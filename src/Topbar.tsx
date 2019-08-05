@@ -38,17 +38,33 @@ export class Topbar extends React.Component<IProps, IState> {
         };
     }
 
-    run() {
+    run() {        
         const { pattern, key, value, ttl } = this.state;
         const input = { pattern, key, value, ttl };
         this.props.run(this.state.command, input);
+        this.clearInputs();
     }
 
     onChangeHandler(fieldName, e) {
         const { value } = e.target;
 
-        const data = {};
+        const data = {} as any;
         data[fieldName] = value;
+
+        if(fieldName === 'command'){
+            this.clearInputs();
+        }
+
+        this.setState(data);
+    }
+
+    clearInputs () {
+        const data = {
+            key: '',
+            value: '',
+            pattern: '',
+            ttl: null,
+        };
 
         this.setState(data);
     }
@@ -64,10 +80,10 @@ export class Topbar extends React.Component<IProps, IState> {
     render() {
         return (
             <form className="topbar">
-                {this.shouldShowInput('PATTERN') && <input type="text" onChange={this.onChangeHandler.bind(this, 'PATTERN')} placeholder="Pattern" />}
-                {this.shouldShowInput('KEY') && <input type="text" onChange={this.onChangeHandler.bind(this, 'KEY')} placeholder="Key" />}
-                {this.shouldShowInput('VALUE') && <input type="text" onChange={this.onChangeHandler.bind(this, 'VALUE')} placeholder="Value" />}
-                {this.shouldShowInput('TTL') && <input type="text" onChange={this.onChangeHandler.bind(this, 'TTL')} placeholder="Time to live" />}
+                {this.shouldShowInput('PATTERN') && <input value={this.state.pattern} type="text" onChange={this.onChangeHandler.bind(this, 'pattern')} placeholder="Pattern" />}
+                {this.shouldShowInput('KEY') && <input value={this.state.key} type="text" onChange={this.onChangeHandler.bind(this, 'key')} placeholder="Key" />}
+                {this.shouldShowInput('VALUE') && <input value={this.state.value} type="text" onChange={this.onChangeHandler.bind(this, 'value')} placeholder="Value" />}
+                {this.shouldShowInput('TTL') && <input value={this.state.ttl} type="text" onChange={this.onChangeHandler.bind(this, 'ttl')} placeholder="Time to live" />}
 
                 <select onChange={this.onChangeHandler.bind(this, 'command')} >
                     <option value="GET">Get</option>

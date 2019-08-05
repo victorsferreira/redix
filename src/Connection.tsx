@@ -1,20 +1,29 @@
 import React from 'react';
 import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
-import { CustomComponent } from './CustomComponent';
+import { CustomComponent, IConnectionObserverProps } from './CustomComponent';
 import { ConnectionsProvider } from './ConnectionsProvider';
-import { RedisClient } from './RedisClient';
+import { client as redisClient, RedisClient } from './RedisClient';
 import { Result } from './Result';
+import { observer, inject } from 'mobx-react';
+import { autorun } from 'mobx';
+import store from './ConnectionsStore';
+
+interface IProps extends IConnectionObserverProps { }
 
 interface IState {
   output: any;
   resultSet: any;
   connection: any;
+  loaded: boolean;
 }
 
-export class Connection extends CustomComponent<any, IState> {
+@inject("connectionsStore")
+@observer
+export class Connection extends CustomComponent<IProps, IState> {
   private provider: ConnectionsProvider;
   private redisClient: RedisClient;
+  private store: any;
 
   constructor(props) {
     super(props);
@@ -23,30 +32,48 @@ export class Connection extends CustomComponent<any, IState> {
       connection: null,
       output: null,
       resultSet: null,
+      loaded: false
     };
 
     this.provider = new ConnectionsProvider();
+    this.redisClient = redisClient;
+
+    this.store = store;
+    autorun(() => {
+      const id = this.store.selected;
+      this.openConnection(id);
+    });
   }
 
-  componentDidMount() {
-    const id = this.getRouteParam('id');
-    const connection = this.provider.getById(id);
-    if(!connection) {
+  async componentWillUpdate() {
+    // const id = this.getRouteParam('id');    
+    // if (this.state.loaded && this.state.connection && this.state.connection.id !== id) {
+    //     await this.openConnection(id);
+    // }
+  }
+
+  async openConnection(id) {
+    const connection = await this.provider.getById(id);
+    if (!connection) {
       this.go('/home');
       return;
     }
 
-    this.setState({ connection });
+    await this.setState({ connection, loaded: true });
 
-    this.redisClient = new RedisClient();
-    this.redisClient.connect(connection);
+    await this.redisClient.connect(connection);
+  }
+
+  async componentDidMount() {
+    // const id = this.getRouteParam('id');
+    // await this.openConnection(id);
   }
 
   async runGet(key) {
     const value = await this.redisClient.get(key);
-    const resultSet = this.resultSetDTO(
+    const resultSet = value ? this.resultSetDTO(
       this.keyValueDTO(key, value)
-    );
+    ) : [];
 
     const output = this.outputResultDTO('GET', true);
 
@@ -54,13 +81,14 @@ export class Connection extends CustomComponent<any, IState> {
   }
 
   async runSet(key, value) {
-    await this.redisClient.set(key, value);
-    // Should return output?
-    const resultSet = this.resultSetDTO(
-      this.keyValueDTO(key)
-    );
+    const commandResult = await this.redisClient.set(key, value);
+    const success = commandResult === 'OK';
 
-    const output = this.outputResultDTO('SET', true);
+    const resultSet = success ? this.resultSetDTO(
+      this.keyValueDTO(key)
+    ) : [];
+
+    const output = this.outputResultDTO('SET', success);
 
     this.setResult(output, resultSet);
   }
@@ -90,6 +118,8 @@ export class Connection extends CustomComponent<any, IState> {
   }
 
   run = async (command: string, input: any) => {
+    this.setResult(null, null);
+    
     if (command === 'GET') {
       this.runGet(input.key);
     } else if (command === 'SET') {
@@ -107,10 +137,11 @@ export class Connection extends CustomComponent<any, IState> {
     if (!output) output = null;
     if (!resultSet) resultSet = null;
 
-    this.setState({
-      output,
-      resultSet
-    });
+    this.store.setResult(resultSet, output);
+  }
+
+  componentDidUpdate() {
+    
   }
 
   keyValueDTO(key, value = null) {

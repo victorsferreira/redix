@@ -1,6 +1,7 @@
 body, html{
     padding: 0;
     margin: 0;
+    min-width: 1000px;
 }
 
 * {
@@ -18,7 +19,10 @@ body, html{
     background: #2c3e50;
     padding: 15px 10px;
     overflow-x: auto;
+}
 
+.sidebar .connection-item.selected {
+    background: #11161b;
 }
 
 .content{
@@ -30,6 +34,8 @@ body, html{
 
 .connection-item .name{
     cursor: pointer;
+    width: 150px;
+    overflow: hidden;
 }
 
 .topbar, .connection-form{
@@ -90,6 +96,7 @@ button svg, .button svg{
 .connection-item .controls{
     width: 25%;
     display: inline-block;
+    float: right;
 }
 
 .connection-item .controls .button{
@@ -113,6 +120,7 @@ button svg, .button svg{
 .button.create-connection{
     float: left;
     margin-left: 0px;
+    margin-top: 20px;
 }
 
 h2{
@@ -124,10 +132,22 @@ h2{
 }
 
 .result-set header{
-    background: #2c3e50;
+    background: #2c3e50;    
+}
+
+.result-set header, .result-set .list, .output{
     padding: 10px;
 }
 
 .result-set header .show-as-json{
     float: right;
+}
+
+.key-value-item {
+    margin-bottom: 10px;
+}
+
+.key-value-item .key{
+    font-weight: bold;
+    margin-bottom: 3px;
 }

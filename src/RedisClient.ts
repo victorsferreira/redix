@@ -1,23 +1,20 @@
-// const redis: any = {};
-import * as loader from './loader';
-const redis = loader.get('redis');
+const redis = (window as any).require('redis');
 
 export class RedisClient {
-    private redis: any;
+    private client: any;
 
     constructor() {
-        console.log("CRIOU OUTRA")
 
     }
 
     async connect(config: any = {}) {
-        if (this.redis) {
+        if (this.client) {
             // Disconnect if it is already connected
-            this.redis.end();
+            this.client.end();
         }
 
         const { host, port, username, password } = config;
-        this.redis = await redis.createClient({
+        this.client = await redis.createClient({
             host, port, username, password,
             retry_strategy: (options) => {
                 if (options.error) {
@@ -28,12 +25,16 @@ export class RedisClient {
             }
         });
 
-        console.log("Redis has connected");
+        console.log("Redis has connected", config.name);
+    }
+
+    disconnect(){
+        this.client.end();
     }
 
     flushAll(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.redis.flushdb((err, data) => {
+            this.client.flushdb((err, data) => {
                 if (err) reject(err);
                 else resolve(data);
             });
@@ -42,7 +43,8 @@ export class RedisClient {
 
     get(key): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.redis.get(key, (err, data) => {
+            this.client.get(key, (err, data) => {
+                console.log("get", data)
                 if (err) reject(err);
                 else resolve(data);
             });
@@ -51,7 +53,7 @@ export class RedisClient {
 
     delete(key): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.redis.del(key, (err, data) => {
+            this.client.del(key, (err, data) => {
                 if (err) reject(err);
                 else resolve(data);
             });
@@ -60,7 +62,8 @@ export class RedisClient {
 
     getByPattern(pattern): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.redis.keys(`*${pattern}*`, (err, data) => {
+            this.client.keys(`*${pattern}*`, (err, data) => {
+                console.log("get pattern", data)
                 if (err) reject(err);
                 else resolve(data);
             });
@@ -69,7 +72,8 @@ export class RedisClient {
 
     set(key, value): Promise<any> {
         return new Promise((resolve, reject) => {
-            this.redis.set(key, value, (err, data) => {
+            this.client.set(key, value, (err, data) => {
+                console.log("set", data)
                 if (err) reject(err);
                 else resolve(data);
             });

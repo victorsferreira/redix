@@ -1,5 +1,4 @@
-import * as loader from './loader';
-const config = loader.get('electron-json-config')
+const config = (window as any).require('electron-json-config');
 
 export class ConnectionsRepository {
     read(): any[] {

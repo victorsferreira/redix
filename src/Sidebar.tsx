@@ -2,10 +2,10 @@ import React from "react";
 import { IConnectionCollection } from "./types";
 import { ConnectionsProvider } from "./ConnectionsProvider";
 import { inject, observer } from "mobx-react";
-import { Link } from "react-router-dom";
 import { history } from "./history";
 import { IConnectionObserverProps, CustomComponent } from "./CustomComponent";
 import { Button } from "./Button";
+import ConnectionsStore from "./ConnectionsStore";
 
 interface IProps extends IConnectionObserverProps { }
 
@@ -27,6 +27,8 @@ export class Sidebar extends CustomComponent<IProps, IState> {
         this.state = {
             connections: []
         }
+
+        this.store = ConnectionsStore;
     }
 
     delete(id) {
@@ -39,12 +41,19 @@ export class Sidebar extends CustomComponent<IProps, IState> {
         history.push('/edit', { id });
     }
 
-    openConnection(id) {
-        history.push('/connection', { id });
+    openConnection(id) {            
+        history.push('/connection');
+        this.store.select(id);
     }
 
     goToCreate(id) {
         this.provider.delete(id);
+    }
+
+    getConnectionItemClassName(id){
+        return this.props.connectionsStore.selected === id ? 
+        'selected' : 
+        '';
     }
 
     render() {
@@ -55,7 +64,7 @@ export class Sidebar extends CustomComponent<IProps, IState> {
                     {
                         connections.map((connection, i) => {
                             return (
-                                <div className="connection-item" key={i}>
+                                <div className={`connection-item ${this.getConnectionItemClassName(connection.id)}`} key={i}>
                                     <span onClick={this.openConnection.bind(this, connection.id)} className="name">{connection.name}</span>
                                     <div className="controls">
                                         <Button icon="delete" onClick={this.delete.bind(this, connection.id)}>
