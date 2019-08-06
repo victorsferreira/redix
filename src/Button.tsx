@@ -1,14 +1,15 @@
 import React from 'react';
-import { 
-    FaSave, 
-    FaPlusSquare, 
-    FaDatabase, 
-    FaTrashAlt, 
-    FaSearch, 
+import {
+    FaSave,
+    FaPlusSquare,
+    FaDatabase,
+    FaTrashAlt,
+    FaSearch,
     FaEdit,
     FaExclamation
 } from 'react-icons/fa';
 import { Link } from "react-router-dom";
+import { StyledButton } from './styled';
 
 interface IProps {
     link?: string;
@@ -19,7 +20,7 @@ interface IProps {
 
 export class Button extends React.Component<IProps> {
     getIcon(iconName) {
-        if(!iconName) return null;
+        if (!iconName) return null;
         const icons = {
             save: FaSave,
             add: FaPlusSquare,
@@ -40,18 +41,19 @@ export class Button extends React.Component<IProps> {
     }
 
     render() {
-        const Icon = this.getIcon(this.props.icon);
+        const Icon = this.props.icon ? this.getIcon(this.props.icon) : null;
+        const as = this.props.link ? Link : null;
+        const props = { ...this.props, to: this.props.link };
 
-        const element = this.props.link ?
-            <Link className={`button ${this.props.className}`} to={this.props.link}>
-                {this.props.children}            
-                <Icon />
-            </Link> :
-            <button type="button" className="button" onClick={this.props.onClick}>
-                {this.props.children}
-                <Icon />
-            </button>;
-
-        return element;
+        return (
+            <StyledButton
+                className={`button ${props.className}`}
+                as={as}
+                {...props}
+            >
+                {this.props.icon && <Icon />}
+                {this.props.children && <span>{this.props.children}</span>}
+            </StyledButton>
+        );
     }
 }

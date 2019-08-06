@@ -1,6 +1,7 @@
 import React from "react";
 import { ICommand } from "./types";
 import { Button } from "./Button";
+import { StyledTopbar } from "./styled";
 
 interface IProps {
     run: (string, any) => {}
@@ -11,7 +12,7 @@ interface IState {
     value: string;
     pattern: string;
     ttl: number;
-    command: ICommand;    
+    command: ICommand;
 }
 
 export class Topbar extends React.Component<IProps, IState> {
@@ -38,7 +39,7 @@ export class Topbar extends React.Component<IProps, IState> {
         };
     }
 
-    run() {        
+    run() {
         const { pattern, key, value, ttl } = this.state;
         const input = { pattern, key, value, ttl };
         this.props.run(this.state.command, input);
@@ -51,14 +52,14 @@ export class Topbar extends React.Component<IProps, IState> {
         const data = {} as any;
         data[fieldName] = value;
 
-        if(fieldName === 'command'){
+        if (fieldName === 'command') {
             this.clearInputs();
         }
 
         this.setState(data);
     }
 
-    clearInputs () {
+    clearInputs() {
         const data = {
             key: '',
             value: '',
@@ -79,20 +80,22 @@ export class Topbar extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <form className="topbar">
-                {this.shouldShowInput('PATTERN') && <input value={this.state.pattern} type="text" onChange={this.onChangeHandler.bind(this, 'pattern')} placeholder="Pattern" />}
-                {this.shouldShowInput('KEY') && <input value={this.state.key} type="text" onChange={this.onChangeHandler.bind(this, 'key')} placeholder="Key" />}
-                {this.shouldShowInput('VALUE') && <input value={this.state.value} type="text" onChange={this.onChangeHandler.bind(this, 'value')} placeholder="Value" />}
-                {this.shouldShowInput('TTL') && <input value={this.state.ttl} type="text" onChange={this.onChangeHandler.bind(this, 'ttl')} placeholder="Time to live" />}
+            <StyledTopbar className="topbar">
+                <div>
+                    {this.shouldShowInput('PATTERN') && <input value={this.state.pattern} type="text" onChange={this.onChangeHandler.bind(this, 'pattern')} placeholder="Pattern" />}
+                    {this.shouldShowInput('KEY') && <input value={this.state.key} type="text" onChange={this.onChangeHandler.bind(this, 'key')} placeholder="Key" />}
+                    {this.shouldShowInput('VALUE') && <input value={this.state.value} type="text" onChange={this.onChangeHandler.bind(this, 'value')} placeholder="Value" />}
+                    {this.shouldShowInput('TTL') && <input value={this.state.ttl} type="text" onChange={this.onChangeHandler.bind(this, 'ttl')} placeholder="Time to live" />}
 
-                <select onChange={this.onChangeHandler.bind(this, 'command')} >
-                    <option value="GET">Get</option>
-                    <option value="SET">Set</option>
-                    <option value="SEARCH">Search</option>
-                    <option value="DELETE">Delete</option>
-                    <option value="FLUSH">Flush</option>
-                    {/* <option value="EXPIRE">Expire</option> */}
-                </select>
+                    <select onChange={this.onChangeHandler.bind(this, 'command')} >
+                        <option value="GET">Get</option>
+                        <option value="SET">Set</option>
+                        <option value="SEARCH">Search</option>
+                        <option value="DELETE">Delete</option>
+                        <option value="FLUSH">Flush</option>
+                        {/* <option value="EXPIRE">Expire</option> */}
+                    </select>
+                </div>
 
                 <Button
                     icon="run"
@@ -100,7 +103,15 @@ export class Topbar extends React.Component<IProps, IState> {
                 >
                     Run
                 </Button>
-            </form>
+
+                <Button>
+                    Clear
+                </Button>
+
+                <Button>
+                    Close connection
+                </Button>
+            </StyledTopbar>
         );
     }
 }

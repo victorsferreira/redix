@@ -8,6 +8,7 @@ import { Result } from './Result';
 import { observer, inject } from 'mobx-react';
 import { autorun } from 'mobx';
 import store from './ConnectionsStore';
+import { StyledContent } from './styled';
 
 interface IProps extends IConnectionObserverProps { }
 
@@ -190,7 +191,7 @@ export class Connection extends CustomComponent<IProps, IState> {
     return (
       <div className="Create">
         <Sidebar />
-        <div className="content">
+        <StyledContent className="content">
           <Topbar
             run={this.run.bind(this)}
           />
@@ -199,7 +200,7 @@ export class Connection extends CustomComponent<IProps, IState> {
             resultSet={this.state.resultSet}
             output={this.state.output}
           />
-        </div>
+        </StyledContent>
       </div>
     );
   }

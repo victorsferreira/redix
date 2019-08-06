@@ -1,13 +1,14 @@
 import React from 'react';
 import { Sidebar } from "./Sidebar";
 import { Link } from "react-router-dom";
+import { StyledContent } from "./styled";
 
 export class Home extends React.Component {
   render() {
     return (
       <div className="Home">
         <Sidebar {...this.props} />
-        <div className="content">
+        <StyledContent className="content">
           <div className="home-content">
             <h2>
               Select a connection to get started!
@@ -18,7 +19,7 @@ export class Home extends React.Component {
               browse for answers and submit your Pull Request!
           </p>
           </div>
-        </div>
+        </StyledContent>
       </div>
     );
   }

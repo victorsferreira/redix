@@ -4,6 +4,7 @@ import { Form } from "./Form";
 import { observer, inject } from 'mobx-react';
 import { ConnectionsProvider } from './ConnectionsProvider';
 import { IConnectionObserverProps, IRouteProps } from "./CustomComponent";
+import { StyledContent } from './styled';
 
 interface IProps extends IConnectionObserverProps, IRouteProps { }
 
@@ -24,9 +25,9 @@ export class Edit extends React.Component<IProps> {
     return (
       <div className="Edit">
         <Sidebar />
-        <div className="content">
+        <StyledContent className="content">
           <Form data={connection} />
-        </div>
+        </StyledContent>
       </div>
     );
   }

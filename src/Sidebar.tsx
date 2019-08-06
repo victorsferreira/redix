@@ -6,6 +6,8 @@ import { history } from "./history";
 import { IConnectionObserverProps, CustomComponent } from "./CustomComponent";
 import { Button } from "./Button";
 import ConnectionsStore from "./ConnectionsStore";
+import { StyledSidebar } from "./styled";
+import { ConnectionItem } from "./ConnectionItem";
 
 interface IProps extends IConnectionObserverProps { }
 
@@ -31,17 +33,17 @@ export class Sidebar extends CustomComponent<IProps, IState> {
         this.store = ConnectionsStore;
     }
 
-    delete(id) {
+    delete = (id) => {
         if (window.confirm("Are you sure?")) {
             this.provider.delete(id);
         }
     }
 
-    goToEdit(id) {
+    goToEdit = (id) => {
         history.push('/edit', { id });
     }
 
-    openConnection(id) {            
+    openConnection = (id) => {            
         history.push('/connection');
         this.store.select(id);
     }
@@ -59,23 +61,18 @@ export class Sidebar extends CustomComponent<IProps, IState> {
     render() {
         const { connections } = this.props.connectionsStore;
         return (
-            <div className="sidebar">
+            <StyledSidebar className="sidebar">
                 <div className="connection-list">
                     {
                         connections.map((connection, i) => {
-                            return (
-                                <div className={`connection-item ${this.getConnectionItemClassName(connection.id)}`} key={i}>
-                                    <span onClick={this.openConnection.bind(this, connection.id)} className="name">{connection.name}</span>
-                                    <div className="controls">
-                                        <Button icon="delete" onClick={this.delete.bind(this, connection.id)}>
-                                            {/* Delete */}
-                                        </Button>
-                                        <Button icon="edit" onClick={this.goToEdit.bind(this, connection.id)}>
-                                            {/* Edit */}
-                                        </Button>
-                                    </div>
-                                </div>
-                            );
+                            return <ConnectionItem
+                                key={i}
+                                selected={this.getConnectionItemClassName(connection.id)}
+                                delete={this.delete}
+                                goToEdit={this.goToEdit}
+                                openConnection={this.openConnection}
+                                {...connection}
+                            />
                         })
                     }
                 </div>
@@ -83,7 +80,7 @@ export class Sidebar extends CustomComponent<IProps, IState> {
                 <Button className="create-connection" link="/create" icon="new">
                     Create connection
                 </Button>
-            </div>
+            </StyledSidebar>
         );
     }
 }
