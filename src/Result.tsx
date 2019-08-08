@@ -4,6 +4,7 @@ import { IConnectionObserverProps, CustomComponent } from "./CustomComponent";
 import { KeyValue } from "./KeyValue";
 import { autorun } from "mobx";
 import store from "./ConnectionsStore";
+import { StyledResult } from "./styled";
 
 interface IProps extends IConnectionObserverProps {
     resultSet: any[];
@@ -33,12 +34,13 @@ export class Result extends CustomComponent<IProps, IState> {
 
         autorun(() => {
             const { resultSet, output } = this.props.connectionsStore;
+
             this.update({ resultSet, output });
         })
     }
 
     componentDidUpdate(props) {
-        this.update(props);
+        // this.update(props);
     }
 
     update(props){
@@ -55,13 +57,15 @@ export class Result extends CustomComponent<IProps, IState> {
     render() {
         const { resultSet, output } = this.state;
         return (
-            <div>
+            <StyledResult>
                 {
                     output && (
                         <div className="output">
-                            <div className="output-command">{output.command}</div>
-                            <div className="output-message">{output.message}</div>
-                            <div className="output-success">{output.success}</div>
+                            {/* <div className="output-command">{output.command}</div> */}
+                            <div className={`output-message ${output.success ? 'su`output-message`ccess' : 'error'}`}>
+                                {output.message}
+                            </div>
+                            {/* <div className="output-success">{output.success}</div> */}
                         </div>
                     )
                 }
@@ -89,7 +93,7 @@ export class Result extends CustomComponent<IProps, IState> {
                         </div>
                     )
                 }
-            </div>
+            </StyledResult>
         );
     }
 }

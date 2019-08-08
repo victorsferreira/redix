@@ -77,40 +77,6 @@ body, html{
     padding: 20px; */
 }
 
-input[type="text"], input[type="password"], select{
-    height: 40px !important;
-    border-radius: 20px !important;
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 300px;
-    letter-spacing: 1px;
-    font-size: 15px;
-    background: white;
-    color: rgb(50,50,50);
-
-    border: 0;
-    outline: 0;
-}
-
-option{
-    color: black;
-}
-
-/* button, .button{
-    cursor: pointer;
-    background: #f1c40f;
-    padding: 8px;
-    border: 0;
-    text-transform: uppercase;
-    border-radius: 5px;
-    margin: 2px;
-    font-weight: bold;
-}
-
-a.button{
-    text-decoration: none;
-} */
-
 button svg, .button svg{
     margin-left: 5px;
 }
@@ -133,19 +99,6 @@ h2{
     background: #2c3e50;    
 }
 
-.result-set header, .result-set .list, .output{
-    padding: 10px;
-}
-
 .result-set header .show-as-json{
     float: right;
-}
-
-.key-value-item {
-    margin-bottom: 10px;
-}
-
-.key-value-item .key{
-    font-weight: bold;
-    margin-bottom: 3px;
 }

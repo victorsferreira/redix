@@ -3,6 +3,7 @@ import { IConnectionObserverProps, CustomComponent } from "./CustomComponent";
 import { RedisClient, client as redisClient } from "./RedisClient";
 import ReactJson from 'react-json-view'
 import { Button } from "./Button";
+import { StyledKeyValueItem } from "./styled";
 
 interface IProps extends IConnectionObserverProps {
     recordKey: string;
@@ -37,8 +38,13 @@ export class KeyValue extends CustomComponent<IProps, IState> {
     }
 
     loadPropsToState() {
-        const { recordKey, value, showAsJson } = this.props;
-        this.setState({ recordKey, value, showAsJson });
+        const { recordKey, value } = this.props;
+        this.setState({ recordKey, value });
+    }
+
+    loadShowAsJsonProps(){
+        const { showAsJson } = this.props;
+        this.setState({ showAsJson });
     }
 
     componentDidMount() {
@@ -48,32 +54,45 @@ export class KeyValue extends CustomComponent<IProps, IState> {
     componentDidUpdate(props) {
         if (
             props.recordKey !== this.props.recordKey ||
-            props.value !== this.props.value ||
-            props.showAsJson !== this.props.showAsJson
+            props.value !== this.props.value            
         ) {
             this.loadPropsToState();
+        }
+
+        if(props.showAsJson !== this.props.showAsJson) {
+            this.loadShowAsJsonProps();
         }
     }
 
     render() {
+        let jsonValue = null;
+
+        try {
+            if (this.state.value && this.state.showAsJson) {
+                jsonValue = JSON.parse(this.state.value);
+            }
+        } catch (err) {}
+
         return (
-            <div className="key-value-item">
+            <StyledKeyValueItem className="key-value-item">
                 <div className="key">{this.state.recordKey}</div>
-                <div className="value">
-                    {
-                        this.state.value && this.state.showAsJson ?
-                            <ReactJson src={JSON.parse(this.state.value)} /> :
-                            <span>{this.state.value}</span>
-                    }
-                </div>
+
                 <div className="controls">
                     {
                         this.state.value === null && (
-                            <Button onClick={this.getValue.bind(this)} icon="get">Get</Button>
+                            <Button onClick={this.getValue.bind(this)} icon="get"></Button>
                         )
                     }
                 </div>
-            </div>
+
+                <div className="value">
+                    {
+                        jsonValue ?
+                            <ReactJson src={jsonValue} /> :
+                            <span>{this.state.value}</span>
+                    }
+                </div>
+            </StyledKeyValueItem>
         );
     }
 }

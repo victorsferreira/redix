@@ -29,7 +29,7 @@ export class RedisClient {
     }
 
     disconnect(){
-        this.client.end();
+        if(this.client) this.client.end();
     }
 
     flushAll(): Promise<any> {

@@ -4,7 +4,8 @@ import { Button } from "./Button";
 import { StyledTopbar } from "./styled";
 
 interface IProps {
-    run: (string, any) => {}
+    run: (string, any) => {};
+    closeConnection: any;
 }
 
 interface IState {
@@ -81,12 +82,32 @@ export class Topbar extends React.Component<IProps, IState> {
     render() {
         return (
             <StyledTopbar className="topbar">
-                <div>
-                    {this.shouldShowInput('PATTERN') && <input value={this.state.pattern} type="text" onChange={this.onChangeHandler.bind(this, 'pattern')} placeholder="Pattern" />}
-                    {this.shouldShowInput('KEY') && <input value={this.state.key} type="text" onChange={this.onChangeHandler.bind(this, 'key')} placeholder="Key" />}
-                    {this.shouldShowInput('VALUE') && <input value={this.state.value} type="text" onChange={this.onChangeHandler.bind(this, 'value')} placeholder="Value" />}
-                    {this.shouldShowInput('TTL') && <input value={this.state.ttl} type="text" onChange={this.onChangeHandler.bind(this, 'ttl')} placeholder="Time to live" />}
 
+                <div className="controls">
+                    <Button
+                        icon="run"
+                        onClick={this.run.bind(this)}
+                        className="run  green"
+                    >
+                        Run
+                    </Button>
+
+                    <Button
+                        className="clear"
+                        onClick={this.clearInputs.bind(this)}
+                    >
+                        Clear
+                    </Button>
+
+                    <Button
+                        onClick={() => {
+                            this.props.closeConnection()
+                        }}
+                    >
+                        Close connection
+                    </Button>
+                </div>
+                <div className="main">
                     <select onChange={this.onChangeHandler.bind(this, 'command')} >
                         <option value="GET">Get</option>
                         <option value="SET">Set</option>
@@ -95,22 +116,12 @@ export class Topbar extends React.Component<IProps, IState> {
                         <option value="FLUSH">Flush</option>
                         {/* <option value="EXPIRE">Expire</option> */}
                     </select>
+
+                    {this.shouldShowInput('PATTERN') && <input value={this.state.pattern} type="text" onChange={this.onChangeHandler.bind(this, 'pattern')} placeholder="Pattern" />}
+                    {this.shouldShowInput('KEY') && <input value={this.state.key} type="text" onChange={this.onChangeHandler.bind(this, 'key')} placeholder="Key" />}
+                    {this.shouldShowInput('VALUE') && <input className="big" value={this.state.value} type="text" onChange={this.onChangeHandler.bind(this, 'value')} placeholder="Value" />}
+                    {this.shouldShowInput('TTL') && <input className="small" value={this.state.ttl === null ? '' : this.state.ttl } type="text" onChange={this.onChangeHandler.bind(this, 'ttl')} placeholder="TTL" />}
                 </div>
-
-                <Button
-                    icon="run"
-                    onClick={this.run.bind(this)}
-                >
-                    Run
-                </Button>
-
-                <Button>
-                    Clear
-                </Button>
-
-                <Button>
-                    Close connection
-                </Button>
             </StyledTopbar>
         );
     }

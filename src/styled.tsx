@@ -29,10 +29,80 @@ export const StyledSidebar = styled.div`
     }
 `;
 
-export const StyledTopbar = styled.form`
+export const StyledForm = styled.form`
     width: 100%;
-    padding: 20px;
-    background: ${lightGray};
+    background: ${darkGray};
+    float: left;
+    border-left: 1px solid ${lightGray};
+    border-bottom: 1px solid ${borderLight};
+
+    input[type="text"], input[type="password"], select {
+        height: 40px;
+        width: 265px;
+        border-radius: 20px;
+        padding-left: 10px;
+        padding-right: 10px;
+        letter-spacing: 1px;
+        font-size: 16px;
+        background: white;
+        color: ${darkGray};
+
+        margin: 5px;
+    
+        border: 0;
+        outline: 0;
+
+        &.big{
+            width: 430px;
+        }
+
+        &.small{
+            width: 100px;
+        }
+    }
+
+    option{
+        height: 40px;
+        color: ${darkGray};
+    }
+
+    .main{
+        width: 80%;
+        float: left;
+        padding: 8px 20px;
+    }
+
+    .controls{
+        width: 20%;
+        float: left;
+        height: 120px;
+
+        .button{
+            width: 100%;
+            border-bottom: 1px solid ${orange};
+
+            &:last-child{
+                border: 0;
+            }
+
+            height: 36px;
+        }
+    }
+`;
+
+export const StyledTopbar = styled(StyledForm)`    
+    .controls{
+        .button{
+            &.run{
+                line-height: 29px;
+                height: 49px;
+
+                svg{
+                    margin-top: 5px;
+                }
+            }
+        }
+    }
 `;
 
 export const StyledContent = styled.div`
@@ -43,8 +113,94 @@ export const StyledContent = styled.div`
 `;
 
 export const StyledItem = styled(StyledGeneric)`
+    float: left;
+    width: 100%;
     padding: 10px;
     border-bottom 1px solid ${borderLight};
+`;
+
+export const StyledResult = styled.div`
+    float: left;
+    width: 100%;
+    background: ${midGray};
+
+    .output, .result-set header{
+        padding: 10px;
+    }
+
+    .result-set{
+        header {
+            background: ${lightGray}
+        }
+
+        .list{
+            overflow-x: auto;
+            max-height: 480px;
+        }
+    }
+`;
+
+export const StyledKeyValueItem = styled(StyledItem)`
+    margin-bottom: 10px;
+
+    .key {
+        font-weight: bold;
+        margin-bottom: 3px;
+        height: 20px;
+        width: 80%;
+        float: left;
+    }
+
+    .controls{
+        width: 20%;
+        float: left;
+        .button{
+            float: right;
+            height: 20px;            
+            width: auto;
+            padding: 3px 8px;
+        }
+    }
+
+    .value{
+        width: 100%;
+        float: left;
+    }
+`;
+
+export const StyledButton = styled.div`
+    cursor: pointer;
+    background: ${carrot};
+    padding: 10px;
+    float: left;
+    font-weight: 500;
+
+    &.green{
+        border-bottom-color: #44bd32;
+        background: #009432;
+    }
+
+    svg { 
+        margin-right: 5px;
+        float: left;
+
+        &:last-child {
+            float: none;
+            margin: 0;
+        }
+    }
+
+    &:hover{
+        background: ${orange};
+    }
+
+    &.green:hover{
+        background: #44bd32;
+    }
+
+    a#{&} { 
+        text-decoration: none;
+    }
 `;
 
 export const StyledConnectionItem = styled(StyledItem)`
@@ -105,32 +261,17 @@ export const StyledConnectionItem = styled(StyledItem)`
             &:last-child{
                 border: 0;
             }
+
+            &.run{
+                height: 32px;
+                padding-top: 11px !important; 
+                padding-bottom: 11px !important; 
+            }
         }
-    }
-`;
 
-export const StyledButton = styled.div`
-    cursor: pointer;
-    background: ${carrot};
-    padding: 10px;
-    float: left;
-    font-weight: 500;
-
-    svg { 
-        margin-right: 5px;
-        float: left;
-
-        &:last-child {
-            float: none;
-            margin: 0;
+        .button.run{
+            padding-top: 11px !important; 
+            padding-bottom: 11px !important; 
         }
-    }
-
-    &:hover{
-        background: ${orange};
-    }
-
-    a#{&} { 
-        text-decoration: none;
     }
 `;

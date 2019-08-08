@@ -32,7 +32,12 @@ export class Connection extends CustomComponent<IProps, IState> {
     this.state = {
       connection: null,
       output: null,
-      resultSet: null,
+      resultSet: [
+        {key: 'asdsadsa', value: 'adsadsadsa'},
+        {key: 'asdsadsa', value: 'adsadsadsa'},
+        {key: 'asdsadsa', value: 'adsadsadsa'},
+        {key: 'asdsadsa', value: 'adsadsadsa'}
+      ],
       loaded: false
     };
 
@@ -120,7 +125,6 @@ export class Connection extends CustomComponent<IProps, IState> {
 
   run = async (command: string, input: any) => {
     this.setResult(null, null);
-    
     if (command === 'GET') {
       this.runGet(input.key);
     } else if (command === 'SET') {
@@ -137,7 +141,7 @@ export class Connection extends CustomComponent<IProps, IState> {
   setResult(output = null, resultSet = null) {
     if (!output) output = null;
     if (!resultSet) resultSet = null;
-
+    
     this.store.setResult(resultSet, output);
   }
 
@@ -187,6 +191,11 @@ export class Connection extends CustomComponent<IProps, IState> {
     };
   }
 
+  closeConnection = () => {
+    this.redisClient.disconnect();
+    this.go('/home');
+  }
+
   render() {
     return (
       <div className="Create">
@@ -194,6 +203,7 @@ export class Connection extends CustomComponent<IProps, IState> {
         <StyledContent className="content">
           <Topbar
             run={this.run.bind(this)}
+            closeConnection={this.closeConnection.bind(this)}
           />
 
           <Result
