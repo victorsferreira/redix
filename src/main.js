@@ -1,10 +1,21 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu, Tray } = require('electron');
 
 const isDev = process.env.NODE_ENV === 'dev';
 
 let win;
 
+let tray = null
 function createWindow() {
+    tray = new Tray('./src/icon/512x512.png');
+  const contextMenu = Menu.buildFromTemplate([
+    { label: 'Item1', type: 'radio' },
+    { label: 'Item2', type: 'radio' },
+    { label: 'Item3', type: 'radio', checked: true },
+    { label: 'Item4', type: 'radio' }
+  ])
+  tray.setToolTip('This is my application.')
+  tray.setContextMenu(contextMenu)
+
     // app.getPath('userData');
     // win.loadFile('./src/index.html');
     
@@ -21,13 +32,28 @@ function createWindow() {
     `file://${path.join(__dirname, '../build/index.html')}`;
 
     win.loadURL(url);
+    win.setAutoHideMenuBar(true);
+    win.removeMenu();
 
-    if (isDev) {
-        win.webContents.openDevTools();
+    win.on('closed', (e) => {
+        // if (!isQuiting) {
+            console.log("CLOSED")
+            // e.preventDefault();
+            // e.returnValue = false;
+            // win.hide();
+            // e.returnValue = false;
+        // }
+    });
+
+    win.onbeforeunload = (e) => {
+        console.log('I do not want to be closed')
+        e.returnValue = false // equivalent to `return false` but not recommended
     }
 
-    win.on('closed', () => {
-        win = null
+    win.on('minimize',function(e){
+        e.preventDefault();
+        console.log("MINIZE")
+        win.hide();
     });
 }
 
