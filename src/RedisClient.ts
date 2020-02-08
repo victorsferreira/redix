@@ -32,7 +32,18 @@ export class RedisClient {
         if(this.client) this.client.end();
     }
 
+    getAll(): Promise<any> {
+        console.log("Executing GetAll");
+        return new Promise((resolve, reject) => {
+            this.client.keys('*',(err, data) => {
+                if (err) reject(err);
+                else resolve(data);
+            });
+        });
+    }
+
     flushAll(): Promise<any> {
+        console.log("Executing FlushAll");
         return new Promise((resolve, reject) => {
             this.client.flushdb((err, data) => {
                 if (err) reject(err);
@@ -42,6 +53,7 @@ export class RedisClient {
     }
 
     get(key): Promise<any> {
+        console.log(`Executing Get: Key [${key}]`);
         return new Promise((resolve, reject) => {
             this.client.get(key, (err, data) => {
                 console.log("get", data)
@@ -52,6 +64,7 @@ export class RedisClient {
     }
 
     delete(key): Promise<any> {
+        console.log(`Executing Delete: Key [${key}]`);
         return new Promise((resolve, reject) => {
             this.client.del(key, (err, data) => {
                 if (err) reject(err);
@@ -61,6 +74,7 @@ export class RedisClient {
     }
 
     getByPattern(pattern): Promise<any> {
+        console.log(`Executing Pattern: pattern [${pattern}]`);
         return new Promise((resolve, reject) => {
             this.client.keys(`*${pattern}*`, (err, data) => {
                 console.log("get pattern", data)
@@ -71,6 +85,7 @@ export class RedisClient {
     }
 
     set(key, value): Promise<any> {
+        console.log(`Executing Set: Key [${key}] value [${value}]`);
         return new Promise((resolve, reject) => {
             this.client.set(key, value, (err, data) => {
                 console.log("set", data)

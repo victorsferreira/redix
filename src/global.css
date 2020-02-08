@@ -4,6 +4,11 @@ body, html{
     min-width: 1000px;
 }
 
+#root {    
+    width: 100vw;
+    overflow: hidden;
+}
+
 * {
     font-family: 'Roboto', sans-serif;
     color: white;

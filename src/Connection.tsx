@@ -75,6 +75,18 @@ export class Connection extends CustomComponent<IProps, IState> {
     // await this.openConnection(id);
   }
 
+  // IS IT NECESSARY?
+  async runAll() {
+    const keys = await this.redisClient.getAll();
+    const keyValueSet = keys.map(key => {
+      return this.keyValueDTO(key);
+    });
+
+    const output = this.outputResultDTO('KEYS', true);
+    const resultSet = this.resultSetDTO(keyValueSet);
+    this.setResult(output, resultSet);
+  }
+
   async runGet(key) {
     const value = await this.redisClient.get(key);
     const resultSet = value ? this.resultSetDTO(
@@ -117,6 +129,17 @@ export class Connection extends CustomComponent<IProps, IState> {
     this.setResult(output, resultSet);
   }
 
+  async runSearch(pattern) {
+    const keys = await this.redisClient.getByPattern(pattern);
+    const keyValueSet = keys.map(key => {
+      return this.keyValueDTO(key);
+    });
+
+    const output = this.outputResultDTO('KEYS', true);
+    const resultSet = this.resultSetDTO(keyValueSet);
+    this.setResult(output, resultSet);
+  }
+
   async runFlush() {
     await this.redisClient.flushAll();
     const output = this.outputResultDTO('FLUSH', true);
@@ -132,9 +155,11 @@ export class Connection extends CustomComponent<IProps, IState> {
     } else if (command === 'DELETE') {
       this.runDel(input.key);
     } else if (command === 'SEARCH') {
-      this.runKeys(input.pattern);
+      this.runSearch(input.pattern);
     } else if (command === 'FLUSH') {
       this.runFlush();
+    } else if (command === 'ALL') {
+      this.runAll();
     }
   }
 

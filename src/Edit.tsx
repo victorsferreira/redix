@@ -21,7 +21,6 @@ export class Edit extends React.Component<IProps> {
   render() {
     const { id } = this.props.location.state;
     const connection = this.provider.getById(id);
-
     return (
       <div className="Edit">
         <Sidebar />

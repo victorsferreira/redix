@@ -17,7 +17,7 @@ export const StyledGeneric = styled.div`
 
 export const StyledSidebar = styled.div`
     height: 100vh;
-    width: 25%;
+    width: 25vw;
     float: left;
     background: ${darkGray};
     overflow-x: auto;
@@ -107,7 +107,7 @@ export const StyledTopbar = styled(StyledForm)`
 
 export const StyledContent = styled.div`
     height: 100vh;
-    width: 75%;
+    width: 75vw;
     float: left;
     background: ${midGray};
 `;

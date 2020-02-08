@@ -4,12 +4,18 @@ import { ConnectionsProvider } from "./ConnectionsProvider";
 import { history } from "./history";
 import { Button } from "./Button";
 import { StyledForm } from "./styled";
+import { Col, Row } from "react-grid-system";
 
 interface IProps {
     data?: IConnection;
 }
 
-interface IState extends IConnectionRequest { }
+interface IState extends IConnectionRequest {
+    name: string;
+    port: string;
+    host: string;
+    password: string;
+}
 
 export class Form extends React.Component<IProps, IState> {
     private provider: ConnectionsProvider;
@@ -17,7 +23,16 @@ export class Form extends React.Component<IProps, IState> {
     constructor(props) {
         super(props);
 
+        this.state = {
+            name: "",
+            port: "",
+            host: "",
+            password: "",
+        };
+
         this.provider = new ConnectionsProvider();
+
+        this.setDefaults();
     }
 
     onChangeHandler(fieldName, e) {
@@ -27,6 +42,12 @@ export class Form extends React.Component<IProps, IState> {
         data[fieldName] = value;
 
         this.setState(data);
+    }
+
+    componentDidMount() {
+        if (this.props.data) {
+            this.setState(this.props.data);
+        }
     }
 
     save() {
@@ -41,26 +62,48 @@ export class Form extends React.Component<IProps, IState> {
         history.push("/home");
     }
 
+    clearFields = () => {
+        this.setState({
+            name: "",
+            host: "",
+            port: "",
+            password: ""
+        });
+    }
+
+    setDefaults = () => {
+        this.setState({
+            name: "New connection",
+            host: "localhost",
+            port: "5379",
+            password: ""
+        });
+    }
+
     render() {
         const data: any = this.props.data || {};
         return (
             <StyledForm className="connection-form">
-                <div className="controls">
-                    <Button
-                        className="save green"
-                        onClick={this.save.bind(this)}
-                        icon="save"
-                    >
-                        Save
+                <Row nogutter>
+                    <Col md={3} className="controls">
+                        <Button
+                            className="save green"
+                            onClick={this.save.bind(this)}
+                            icon="save"
+                        >
+                            Save
                     </Button>
-                </div>
+                        <Button onClick={this.clearFields}>Clear fields</Button>
+                        <Button onClick={this.setDefaults}>Set defaults</Button>
+                    </Col>
 
-                <div className="main">
-                    <input defaultValue={data.name} onChange={this.onChangeHandler.bind(this, 'name')} placeholder="Name" type="text" />
-                    <input defaultValue={data.host} onChange={this.onChangeHandler.bind(this, 'host')} placeholder="Host" type="text" />
-                    <input defaultValue={data.port} onChange={this.onChangeHandler.bind(this, 'port')} placeholder="Port" type="text" />
-                    <input defaultValue={data.password} onChange={this.onChangeHandler.bind(this, 'password')} placeholder="Password" type="password" />
-                </div>
+                    <Col md={9} className="main">
+                        <input value={this.state.name} onChange={this.onChangeHandler.bind(this, 'name')} placeholder="Name" type="text" />
+                        <input value={this.state.host} onChange={this.onChangeHandler.bind(this, 'host')} placeholder="Host" type="text" />
+                        <input value={this.state.port} onChange={this.onChangeHandler.bind(this, 'port')} placeholder="Port" type="text" />
+                        <input value={this.state.password} onChange={this.onChangeHandler.bind(this, 'password')} placeholder="Password" type="password" />
+                    </Col>
+                </Row>
             </StyledForm>
         );
     }

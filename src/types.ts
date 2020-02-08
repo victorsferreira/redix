@@ -18,6 +18,7 @@ export enum ICommand {
     DELETE = "DELETE",
     SEARCH = "SEARCH",
     FLUSH = "FLUSH",
+    ALL = "ALL",
     EXPIRE = "EXPIRE",
 }
 

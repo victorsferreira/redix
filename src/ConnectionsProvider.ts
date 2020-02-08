@@ -39,7 +39,6 @@ export class ConnectionsProvider {
         this.repository.save(list);
         this.store.set(list);
         
-
         return newItem;
     }
 
