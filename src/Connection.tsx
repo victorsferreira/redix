@@ -33,10 +33,6 @@ export class Connection extends CustomComponent<IProps, IState> {
       connection: null,
       output: null,
       resultSet: [
-        {key: 'asdsadsa', value: 'adsadsadsa'},
-        {key: 'asdsadsa', value: 'adsadsadsa'},
-        {key: 'asdsadsa', value: 'adsadsadsa'},
-        {key: 'asdsadsa', value: 'adsadsadsa'}
       ],
       loaded: false
     };
@@ -118,16 +114,16 @@ export class Connection extends CustomComponent<IProps, IState> {
     this.setResult(output);
   }
 
-  async runKeys(pattern) {
-    const keys = await this.redisClient.getByPattern(pattern);
-    const keyValueSet = keys.map(key => {
-      return this.keyValueDTO(key);
-    });
+  // async runKeys(pattern) {
+  //   const keys = await this.redisClient.getByPattern(pattern);
+  //   const keyValueSet = keys.map(key => {
+  //     return this.keyValueDTO(key);
+  //   });
 
-    const output = this.outputResultDTO('KEYS', true);
-    const resultSet = this.resultSetDTO(keyValueSet);
-    this.setResult(output, resultSet);
-  }
+  //   const output = this.outputResultDTO('KEYS', true);
+  //   const resultSet = this.resultSetDTO(keyValueSet);
+  //   this.setResult(output, resultSet);
+  // }
 
   async runSearch(pattern) {
     const keys = await this.redisClient.getByPattern(pattern);
@@ -147,7 +143,7 @@ export class Connection extends CustomComponent<IProps, IState> {
   }
 
   run = async (command: string, input: any) => {
-    this.setResult(null, null);
+    this.setResult(null, null, true);
     if (command === 'GET') {
       this.runGet(input.key);
     } else if (command === 'SET') {
@@ -163,11 +159,11 @@ export class Connection extends CustomComponent<IProps, IState> {
     }
   }
 
-  setResult(output = null, resultSet = null) {
+  setResult(output = null, resultSet = null, cleared = false) {
     if (!output) output = null;
     if (!resultSet) resultSet = null;
     
-    this.store.setResult(resultSet, output);
+    this.store.setResult(resultSet, output, cleared);
   }
 
   componentDidUpdate() {
@@ -221,6 +217,11 @@ export class Connection extends CustomComponent<IProps, IState> {
     this.go('/home');
   }
 
+  clearResults = () => {
+    console.log('set result')
+    this.store.setResult(null, null, true);
+  }
+
   render() {
     return (
       <div className="Create">
@@ -228,6 +229,7 @@ export class Connection extends CustomComponent<IProps, IState> {
         <StyledContent className="content">
           <Topbar
             run={this.run.bind(this)}
+            clearResults={this.clearResults}
             closeConnection={this.closeConnection.bind(this)}
           />
 

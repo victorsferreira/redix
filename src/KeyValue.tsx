@@ -34,12 +34,13 @@ export class KeyValue extends CustomComponent<IProps, IState> {
 
     getValue = async () => {
         const value = await this.redisClient.get(this.state.recordKey);
+        console.log("Key-Value found", value)
         this.setState({ value });
     }
 
     loadPropsToState() {
-        const { recordKey, value } = this.props;
-        this.setState({ recordKey, value });
+        const { recordKey, value, showAsJson } = this.props;
+        this.setState({ recordKey, value, showAsJson });
     }
 
     loadShowAsJsonProps(){
@@ -69,9 +70,15 @@ export class KeyValue extends CustomComponent<IProps, IState> {
 
         try {
             if (this.state.value && this.state.showAsJson) {
+                console.log("Will try to parse JSON", this.state.value)
                 jsonValue = JSON.parse(this.state.value);
+                console.log("JSON value", jsonValue);
             }
-        } catch (err) {}
+        } catch (err) {
+            console.log("Could not parse JSON");
+        }
+
+        console.log("Show key-value as JSON", this.state.showAsJson)
 
         return (
             <StyledKeyValueItem className="key-value-item">

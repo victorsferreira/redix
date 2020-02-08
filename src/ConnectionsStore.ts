@@ -5,6 +5,7 @@ class ConnectionsStore {
     @observable selected = null;
     @observable resultSet = null;
     @observable output = null;
+    @observable cleared = null;
 
     constructor() {
         autorun(() => console.log(this.connections, this.selected));
@@ -18,10 +19,10 @@ class ConnectionsStore {
         this.selected = connection;
     }
 
-    @action setResult = (resultSet: any[], output: any) => {
-        console.log("setResult")
+    @action setResult = (resultSet: any[], output: any, cleared: boolean = false) => {
         this.resultSet = resultSet;
         this.output = output;
+        this.cleared = cleared;
     }
 }
 

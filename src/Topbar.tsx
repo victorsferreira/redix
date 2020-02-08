@@ -6,6 +6,7 @@ import { Col, Row } from "react-grid-system";
 
 interface IProps {
     run: (string, any) => {};
+    clearResults: () => void;
     closeConnection: any;
 }
 
@@ -81,6 +82,10 @@ export class Topbar extends React.Component<IProps, IState> {
         ].includes(input);
     }
 
+    clearResults = () => {
+        this.props.clearResults();
+    }
+
     render() {
         return (
             <StyledTopbar className="topbar">
@@ -94,7 +99,7 @@ export class Topbar extends React.Component<IProps, IState> {
 
                         <Button
                             className="clear"
-                            onClick={this.clearInputs.bind(this)}
+                            onClick={this.clearResults.bind(this)}
                         >Clear</Button>
 
                         <Button

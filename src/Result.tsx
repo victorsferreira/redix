@@ -14,6 +14,7 @@ interface IProps extends IConnectionObserverProps {
 interface IState {
     resultSet: any[];
     output: any;
+    // cleared: boolean;
     showAsJson: boolean;
 }
 
@@ -27,15 +28,16 @@ export class Result extends CustomComponent<IProps, IState> {
         this.state = {
             resultSet: null,
             output: null,
+            // cleared: false,
             showAsJson: false,
         }
 
         this.store = store;
 
         autorun(() => {
-            const { resultSet, output } = this.props.connectionsStore;
-
-            this.update({ resultSet, output });
+            const { resultSet, output, cleared } = this.props.connectionsStore;
+            // console.log("cleared", cleared);
+            this.update({ resultSet, output, cleared });
         })
     }
 
@@ -46,6 +48,9 @@ export class Result extends CustomComponent<IProps, IState> {
     update(props){
         if(props.resultSet) this.setState({resultSet: props.resultSet});
         if(props.output) this.setState({output: props.output});
+        if(props.cleared) {
+            this.setState({output: null, resultSet: null});
+        }
     }
 
     changeShowAsJson = () => {
@@ -55,7 +60,10 @@ export class Result extends CustomComponent<IProps, IState> {
     }
 
     render() {
-        const { resultSet, output } = this.state;
+        const { resultSet, output, showAsJson } = this.state;
+        console.log("Render result", resultSet, output);
+        console.log("Show JSON", showAsJson);
+        
         return (
             <StyledResult>
                 {
