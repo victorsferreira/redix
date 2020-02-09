@@ -77,6 +77,7 @@ export class Result extends CustomComponent<IProps, IState> {
                         </div>
                     )
                 }
+                
                 {
                     resultSet && (
                         <div className="result-set">

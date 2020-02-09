@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import App from './components/App';
+import * as serviceWorker from './components/serviceWorker';
 import { Provider } from "mobx-react";
-import connectionsStore from "./ConnectionsStore";
-import { ConnectionsProvider } from "./ConnectionsProvider";
-import './global.css';
+import connectionsStore from "./components/ConnectionsStore";
+import { ConnectionsProvider } from "./components/ConnectionsProvider";
+import './components/global.css';
 
 const provider = new ConnectionsProvider();
 const list = provider.list();

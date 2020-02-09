@@ -1,15 +1,23 @@
 {
-  "name": "redix",
+  "name": "redix-app",
   "version": "0.1.0",
+  "homepage": "https://github.com/victorsferreira/redix",
+  "author": {
+    "name": "Victor Ferreira",
+    "email": "victorferreirait@gmail.com"
+  },
+  "license": "MIT",
   "private": true,
   "main": "./src/main.js",
+  "devDependencies": {
+    "electron": "^5.0.8",
+    "electron-builder": "^21.1.5"
+  },
   "dependencies": {
     "@types/jest": "24.0.15",
     "@types/node": "12.0.10",
     "@types/react": "16.8.22",
     "@types/react-dom": "16.8.4",
-    "electron": "^5.0.8",
-    "electron-builder": "^21.1.5",
     "electron-json-config": "^1.5.3",
     "mobx": "^5.10.1",
     "mobx-react": "^6.1.1",
@@ -32,7 +40,9 @@
     "start": "npm run start-react & wait-on http://localhost:3000 && npm run start-electron",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "pack": "electron-builder --dir",
+    "dist": "DEBUG=electron-builder electron-builder"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -48,5 +58,18 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "build": {
+    "appId": "com.electron.redix",
+    "productName": "Redix",
+    "linux": {
+      "category": "Training",
+      "description": "Minimalistic Redis Client",
+      "icon": "build/512x512.png",
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
   }
 }
