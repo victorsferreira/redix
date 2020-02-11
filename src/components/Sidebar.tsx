@@ -2,14 +2,17 @@ import React from "react";
 import { IConnectionCollection } from "./types";
 import { ConnectionsProvider } from "./ConnectionsProvider";
 import { inject, observer } from "mobx-react";
-import { history } from "./history";
 import { IConnectionObserverProps, CustomComponent } from "./CustomComponent";
 import { Button } from "./Button";
 import ConnectionsStore from "./ConnectionsStore";
 import { StyledSidebar } from "./styled";
 import { ConnectionItem } from "./ConnectionItem";
+import { RadialButton } from "./RadialButton";
+// import { RadialButton } from './RadialButton';
 
-interface IProps extends IConnectionObserverProps { }
+interface IProps extends IConnectionObserverProps {
+    history?: any;
+}
 
 interface IState {
     connections: IConnectionCollection
@@ -40,11 +43,12 @@ export class Sidebar extends CustomComponent<IProps, IState> {
     }
 
     goToEdit = (id) => {
-        history.push('/edit', { id });
+        this.props.history.push('edit', { id });
     }
 
-    openConnection = (id) => {            
-        history.push('/connection');
+    openConnection = (id) => {
+        console.log("Vai entrar?", this.props)
+        this.props.history.push('connection');
         this.store.select(id);
     }
 
@@ -52,10 +56,10 @@ export class Sidebar extends CustomComponent<IProps, IState> {
         this.provider.delete(id);
     }
 
-    getConnectionItemClassName(id){
-        return this.props.connectionsStore.selected === id ? 
-        'selected' : 
-        '';
+    getConnectionItemClassName(id) {
+        return this.props.connectionsStore.selected === id ?
+            'selected' :
+            '';
     }
 
     render() {
@@ -66,6 +70,7 @@ export class Sidebar extends CustomComponent<IProps, IState> {
                     {
                         connections.map((connection, i) => {
                             return <ConnectionItem
+                                history={this.props.history}
                                 key={i}
                                 selected={this.getConnectionItemClassName(connection.id)}
                                 delete={this.delete}
@@ -77,9 +82,13 @@ export class Sidebar extends CustomComponent<IProps, IState> {
                     }
                 </div>
 
-                <Button className="create-connection" link="/create" icon="new">
+                <div className="add-controls">
+                    <RadialButton big icon="plus" link="create" />
+                </div>
+
+                {/* <Button className="create-connection" link="create" icon="plus">
                     Create connection
-                </Button>
+                </Button> */}
             </StyledSidebar>
         );
     }

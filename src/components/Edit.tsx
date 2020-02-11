@@ -23,7 +23,7 @@ export class Edit extends React.Component<IProps> {
     const connection = this.provider.getById(id);
     return (
       <div className="Edit">
-        <Sidebar />
+        <Sidebar {...this.props} />
         <StyledContent className="content">
           <Form data={connection} />
         </StyledContent>

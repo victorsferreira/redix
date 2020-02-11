@@ -5,6 +5,8 @@ import { KeyValue } from "./KeyValue";
 import { autorun } from "mobx";
 import store from "./ConnectionsStore";
 import { StyledResult } from "./styled";
+import { Icon } from "./Icon";
+import { colors } from './styleGuide';
 
 interface IProps extends IConnectionObserverProps {
     resultSet: any[];
@@ -70,8 +72,9 @@ export class Result extends CustomComponent<IProps, IState> {
                     output && (
                         <div className="output">
                             {/* <div className="output-command">{output.command}</div> */}
-                            <div className={`output-message ${output.success ? 'su`output-message`ccess' : 'error'}`}>
-                                {output.message}
+                            <div className={`output-message ${output.success ? 'success' : 'error'}`}>
+                                {output.command}: <strong style={{color: colors.red}}>{output.success ? 'Success' : 'Failed'}</strong>
+                                {output.success ? <Icon size="1em" type="check" color={colors.green} /> : <Icon size="1em" type="error" color={colors.red} /> }
                             </div>
                             {/* <div className="output-success">{output.success}</div> */}
                         </div>

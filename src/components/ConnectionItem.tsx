@@ -2,6 +2,7 @@ import React from "react";
 import { IConnectionObserverProps, CustomComponent } from "./CustomComponent";
 import { Button } from "./Button";
 import { StyledConnectionItem } from "./styled";
+import { RadialButton } from "./RadialButton";
 
 interface IProps extends IConnectionObserverProps {
 }
@@ -37,8 +38,13 @@ export class ConnectionItem extends CustomComponent<IProps, IState> {
                 </div>
 
                 <div className="controls">
-                    <Button icon="delete" onClick={props.delete.bind(this, connection.id)}></Button>
-                    <Button icon="edit" onClick={props.goToEdit.bind(this, connection.id)}></Button>
+                    {/* <Button icon="delete" onClick={props.delete.bind(this, connection.id)}></Button>
+                    <Button icon="edit" onClick={props.goToEdit.bind(this, connection.id)}></Button> */}
+                    {/* <Button radial small icon="delete" onClick={props.delete.bind(this, connection.id)} />
+                    <Button radial small icon="edit" onClick={props.goToEdit.bind(this, connection.id)} />
+                     */}
+                    <RadialButton small icon="delete" onClick={props.delete.bind(this, connection.id)} />
+                    <RadialButton small icon="edit" onClick={props.goToEdit.bind(this, connection.id)} />
                 </div>
             </StyledConnectionItem>
         );

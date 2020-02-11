@@ -3,7 +3,7 @@ import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
 import { CustomComponent, IConnectionObserverProps } from './CustomComponent';
 import { ConnectionsProvider } from './ConnectionsProvider';
-import { client as redisClient, RedisClient } from './RedisClient';
+import { client as redisClient, RedisClient, RedisClientError } from './RedisClient';
 import { Result } from './Result';
 import { observer, inject } from 'mobx-react';
 import { autorun } from 'mobx';
@@ -57,13 +57,18 @@ export class Connection extends CustomComponent<IProps, IState> {
   async openConnection(id) {
     const connection = await this.provider.getById(id);
     if (!connection) {
-      this.go('/home');
+      this.go('home');
       return;
     }
 
     await this.setState({ connection, loaded: true });
 
-    await this.redisClient.connect(connection);
+    try {
+      await this.redisClient.connect(connection);
+    } catch (err) {
+      const output = this.outputResultDTO('CONNECTION', false);
+      this.setResult(output);
+    }
   }
 
   async componentDidMount() {
@@ -84,34 +89,68 @@ export class Connection extends CustomComponent<IProps, IState> {
   }
 
   async runGet(key) {
-    const value = await this.redisClient.get(key);
-    const resultSet = value ? this.resultSetDTO(
-      this.keyValueDTO(key, value)
-    ) : [];
+    try {
+      const value = await this.redisClient.get(key);
 
-    const output = this.outputResultDTO('GET', true);
+      const resultSet = value ? this.resultSetDTO(
+        this.keyValueDTO(key, value)
+      ) : [];
 
-    this.setResult(output, resultSet);
+      const output = this.outputResultDTO('GET', true);
+
+      this.setResult(output, resultSet);
+    } catch (err) {
+      let output;
+      if (err instanceof RedisClientError) {
+        output = this.outputResultDTO('CONNECTION', false);
+      } else {
+        output = this.outputResultDTO('GET', false);
+      }
+
+      this.setResult(output);
+    }
   }
 
   async runSet(key, value) {
-    const commandResult = await this.redisClient.set(key, value);
-    const success = commandResult === 'OK';
+    try {
+      const commandResult = await this.redisClient.set(key, value);
+      const success = commandResult === 'OK';
 
-    const resultSet = success ? this.resultSetDTO(
-      this.keyValueDTO(key)
-    ) : [];
+      const resultSet = success ? this.resultSetDTO(
+        this.keyValueDTO(key)
+      ) : [];
 
-    const output = this.outputResultDTO('SET', success);
+      const output = this.outputResultDTO('SET', success);
 
-    this.setResult(output, resultSet);
+      this.setResult(output, resultSet);
+    } catch (err) {
+      let output;
+      if (err instanceof RedisClientError) {
+        output = this.outputResultDTO('CONNECTION', false);
+      } else {
+        output = this.outputResultDTO('SET', false);
+      }
+
+      this.setResult(output);
+    }
   }
 
   async runDel(key) {
-    await this.redisClient.delete(key);
-    const output = this.outputResultDTO('DEL', true);
+    try {
+      await this.redisClient.delete(key);
+      const output = this.outputResultDTO('DEL', true);
 
-    this.setResult(output);
+      this.setResult(output);
+    } catch (err) {
+      let output;
+      if (err instanceof RedisClientError) {
+        output = this.outputResultDTO('CONNECTION', false);
+      } else {
+        output = this.outputResultDTO('DEL', false);
+      }
+
+      this.setResult(output);
+    }
   }
 
   // async runKeys(pattern) {
@@ -126,20 +165,42 @@ export class Connection extends CustomComponent<IProps, IState> {
   // }
 
   async runSearch(pattern) {
-    const keys = await this.redisClient.getByPattern(pattern);
-    const keyValueSet = keys.map(key => {
-      return this.keyValueDTO(key);
-    });
+    try {
+      const keys = await this.redisClient.getByPattern(pattern);
+      const keyValueSet = keys.map(key => {
+        return this.keyValueDTO(key);
+      });
 
-    const output = this.outputResultDTO('KEYS', true);
-    const resultSet = this.resultSetDTO(keyValueSet);
-    this.setResult(output, resultSet);
+      const output = this.outputResultDTO('KEYS', true);
+      const resultSet = this.resultSetDTO(keyValueSet);
+      this.setResult(output, resultSet);
+    } catch (err) {
+      let output;
+      if (err instanceof RedisClientError) {
+        output = this.outputResultDTO('CONNECTION', false);
+      } else {
+        output = this.outputResultDTO('SEARCH', false);
+      }
+
+      this.setResult(output);
+    }
   }
 
   async runFlush() {
-    await this.redisClient.flushAll();
-    const output = this.outputResultDTO('FLUSH', true);
-    this.setResult(output);
+    try {
+      await this.redisClient.flushAll();
+      const output = this.outputResultDTO('FLUSH', true);
+      this.setResult(output);
+    } catch (err) {
+      let output;
+      if (err instanceof RedisClientError) {
+        output = this.outputResultDTO('CONNECTION', false);
+      } else {
+        output = this.outputResultDTO('FLUSH', false);
+      }
+
+      this.setResult(output);
+    }
   }
 
   run = async (command: string, input: any) => {
@@ -162,12 +223,12 @@ export class Connection extends CustomComponent<IProps, IState> {
   setResult(output = null, resultSet = null, cleared = false) {
     if (!output) output = null;
     if (!resultSet) resultSet = null;
-    
+
     this.store.setResult(resultSet, output, cleared);
   }
 
   componentDidUpdate() {
-    
+
   }
 
   keyValueDTO(key, value = null) {
@@ -214,7 +275,7 @@ export class Connection extends CustomComponent<IProps, IState> {
 
   closeConnection = () => {
     this.redisClient.disconnect();
-    this.go('/home');
+    this.go('home');
   }
 
   clearResults = () => {
@@ -225,7 +286,7 @@ export class Connection extends CustomComponent<IProps, IState> {
   render() {
     return (
       <div className="Create">
-        <Sidebar />
+        <Sidebar {...this.props} />
         <StyledContent className="content">
           <Topbar
             run={this.run.bind(this)}

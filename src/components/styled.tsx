@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { colors } from './styleGuide';
 
 const darkGray = '#1d1e1f';
 const midGray = '#2f3031';
@@ -6,6 +7,10 @@ const lightGray = '#39393a';
 const borderLight = 'rgb(80,80,80)';
 const carrot = '#e67e22';
 const orange = '#f39c12';
+
+export const StyledIcon = styled.div`
+    display: inline-flex;
+`;
 
 export const StyledGeneric = styled.div`
     font-color: white;
@@ -21,24 +26,76 @@ export const StyledSidebar = styled.div`
     float: left;
     background: ${darkGray};
     overflow-x: auto;
+    position: relative;
+    padding-bottom: 70px;
 
     .create-connection{
         svg{
             margin-top: 1px;
         }
     }
+
+    .add-controls{
+        padding: 10px;
+        width: 100%;
+        display: flex;
+        bottom: 0px;
+        position: absolute;
+        justify-content: center;
+    }
+`;
+
+export const StyledTextButton = styled.button`
+    color: ${colors.darkYellow};
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    ${props => props.small && `font-size: 12px;`}
+    ${props => props.medium && `font-size: 16px;`}
+    ${props => props.big && `font-size: 20px;`}
+
+    &:hover {
+        color: ${colors.yellow};
+    }
 `;
 
 export const StyledForm = styled.form`
     width: 100%;
     background: ${darkGray};
-    float: left;
     border-left: 1px solid ${lightGray};
     border-bottom: 1px solid ${borderLight};
 
+    // height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .form-wrapper{
+        width: 100%;
+
+        .inputs-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+
+            .inputs {
+                width: 100%;
+
+                select, input{
+                    margin: 5px 0;
+                }
+            }
+        }
+
+    }
+
     input[type="text"], input[type="password"], select {
         height: 40px;
-        width: 265px;
+        width: 100%;
         border-radius: 20px;
         padding-left: 10px;
         padding-right: 10px;
@@ -46,19 +103,9 @@ export const StyledForm = styled.form`
         font-size: 16px;
         background: white;
         color: ${darkGray};
-
-        margin: 5px;
     
         border: 0;
         outline: 0;
-
-        &.big{
-            width: 430px;
-        }
-
-        &.small{
-            width: 100px;
-        }
     }
 
     option{
@@ -90,7 +137,37 @@ export const StyledForm = styled.form`
     }
 `;
 
-export const StyledTopbar = styled(StyledForm)`    
+export const StyledTopbar = styled(StyledForm)`
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .buttons {
+        .run {
+            padding: 20px 10px;
+            width: 100%;
+            span {
+                font-size: 16px;
+                text-transform: uppercase;
+            }
+
+            svg {
+                margin-right: 10px;
+            }
+        }
+
+        .options{
+            margin-top: 10px;
+            width: 100%;
+            float: left;
+
+            button {
+                // margin-bottom: 5px;
+            }
+        }
+    }
+
     .controls{
         .button{
             &.run{
@@ -126,6 +203,25 @@ export const StyledResult = styled.div`
 
     .output, .result-set header{
         padding: 10px;
+    }
+
+    .output{
+
+        .output-message{
+            display: flex;
+            align-items: center;
+        }
+
+        display: flex;
+
+        strong{
+            margin-right: 5px;
+            margin-left: 5px;
+        }
+
+       .icon-c{
+
+       }
     }
 
     .result-set{
@@ -168,12 +264,20 @@ export const StyledKeyValueItem = styled(StyledItem)`
     }
 `;
 
-export const StyledButton = styled.div`
+export const StyledButton = styled.button`
+    border: none;
     cursor: pointer;
+    outline: none;
     background: ${carrot};
-    padding: 10px;
+    padding: 15px 10px;
     float: left;
     font-weight: 500;
+    text-align: center;
+    border-radius: 3px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &.green{
         border-bottom-color: #44bd32;
@@ -203,13 +307,34 @@ export const StyledButton = styled.div`
     }
 `;
 
+export const StyledRadialButton = styled.button`
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: ${props => props.size}px;
+    height: ${props => props.size}px;
+    border-radius: ${props => props.size / 2}px;
+    border: none;
+    outline: none;
+    background: ${colors.darkYellow};
+
+    &:hover{
+        background: ${colors.yellow};
+    }
+
+    svg{
+        margin: 0;
+    }
+`;
+
 export const StyledConnectionItem = styled(StyledItem)`
     float: left;
     width: 100%;
     padding: 0;
 
     .main {
-        width: 75%
+        width: 85%
         float: left;
         padding: 5px 10px;
         cursor: pointer;
@@ -245,8 +370,13 @@ export const StyledConnectionItem = styled(StyledItem)`
     }
 
     .controls {
-        width: 25%
+        width: 15%
         float: left;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        height: 60px;
 
         .button{
             border: none;

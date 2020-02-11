@@ -3,6 +3,8 @@ import { ICommand } from "./types";
 import { Button } from "./Button";
 import { StyledTopbar } from "./styled";
 import { Col, Row } from "react-grid-system";
+import { RadialButton } from "./RadialButton";
+import { TextButton } from "./TextButton";
 
 interface IProps {
     run: (string, any) => {};
@@ -89,40 +91,53 @@ export class Topbar extends React.Component<IProps, IState> {
     render() {
         return (
             <StyledTopbar className="topbar">
-                <Row nogutter>
-                    <Col md={3}>
+                <Row className="form-wrapper">
+                    <Col className="buttons" md={2}>
                         <Button
-                            icon="run"
+                            icon="play"
                             onClick={this.run.bind(this)}
-                            className="run  green"
-                        >Run</Button>
+                            className="run green"
+                        >Execute</Button>
 
-                        <Button
-                            className="clear"
-                            onClick={this.clearResults.bind(this)}
-                        >Clear</Button>
+                        <div className="options">
+                            <TextButton
+                                className="clear"
+                                small
+                                onClick={this.clearResults.bind(this)}
+                            >Clear results</TextButton>
 
-                        <Button
-                            onClick={() => {
-                                this.props.closeConnection()
-                            }}
-                        >Close connection</Button>
+                            <TextButton
+                                small
+                                onClick={() => {
+                                    this.props.closeConnection()
+                                }}
+                            >Close connection</TextButton>
+                        </div>
                     </Col>
-                    <Col md={9}>
-                        <select onChange={this.onChangeHandler.bind(this, 'command')} >
-                            <option value="GET">Get</option>
-                            <option value="SET">Set</option>
-                            <option value="SEARCH">Search</option>
-                            <option value="DELETE">Delete</option>
-                            <option value="ALL">Get All</option>
-                            <option value="FLUSH">Flush</option>
-                            {/* <option value="EXPIRE">Expire</option> */}
-                        </select>
-
-                        {this.shouldShowInput('PATTERN') && <input value={this.state.pattern} type="text" onChange={this.onChangeHandler.bind(this, 'pattern')} placeholder="Pattern" />}
-                        {this.shouldShowInput('KEY') && <input value={this.state.key} type="text" onChange={this.onChangeHandler.bind(this, 'key')} placeholder="Key" />}
-                        {this.shouldShowInput('VALUE') && <input className="big" value={this.state.value} type="text" onChange={this.onChangeHandler.bind(this, 'value')} placeholder="Value" />}
-                        {this.shouldShowInput('TTL') && <input className="small" value={this.state.ttl === null ? '' : this.state.ttl} type="text" onChange={this.onChangeHandler.bind(this, 'ttl')} placeholder="TTL" />}
+                    <Col md={10} className="inputs-wrapper">
+                        <Row className="inputs">
+                            <Col md={4}>
+                                <select onChange={this.onChangeHandler.bind(this, 'command')} >
+                                    <option value="GET">Get</option>
+                                    <option value="SET">Set</option>
+                                    <option value="SEARCH">Search</option>
+                                    <option value="DELETE">Delete</option>
+                                    <option value="ALL">Get All</option>
+                                    <option value="FLUSH">Flush</option>
+                                    {/* <option value="EXPIRE">Expire</option> */}
+                                </select>
+                            </Col>
+                            <Col md={8}>
+                                {this.shouldShowInput('KEY') && <input value={this.state.key} type="text" onChange={this.onChangeHandler.bind(this, 'key')} placeholder="Key" />}
+                                {this.shouldShowInput('PATTERN') && <input value={this.state.pattern} type="text" onChange={this.onChangeHandler.bind(this, 'pattern')} placeholder="Pattern" />}
+                            </Col>
+                            <Col md={10}>
+                                {this.shouldShowInput('VALUE') && <input className="big" value={this.state.value} type="text" onChange={this.onChangeHandler.bind(this, 'value')} placeholder="Value" />}
+                            </Col>
+                            <Col md={2}>
+                                {this.shouldShowInput('TTL') && <input className="small" value={this.state.ttl === null ? '' : this.state.ttl} type="text" onChange={this.onChangeHandler.bind(this, 'ttl')} placeholder="TTL" />}
+                            </Col>
+                        </Row>
                     </Col>
                 </Row>
             </StyledTopbar>

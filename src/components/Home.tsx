@@ -5,6 +5,8 @@ import { StyledContent } from "./styled";
 
 export class Home extends React.Component {
   render() {
+    (global as any).HISTORY = (this.props as any).history;
+
     return (
       <div className="Home">
         <Sidebar {...this.props} />

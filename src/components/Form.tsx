@@ -1,13 +1,14 @@
 import React from "react";
 import { IConnection, IConnectionRequest } from "./types";
 import { ConnectionsProvider } from "./ConnectionsProvider";
-import { history } from "./history";
 import { Button } from "./Button";
 import { StyledForm } from "./styled";
 import { Col, Row } from "react-grid-system";
+import { CustomComponent } from "./CustomComponent";
 
 interface IProps {
     data?: IConnection;
+    history?: any;
 }
 
 interface IState extends IConnectionRequest {
@@ -17,7 +18,7 @@ interface IState extends IConnectionRequest {
     password: string;
 }
 
-export class Form extends React.Component<IProps, IState> {
+export class Form extends CustomComponent<IProps, IState> {
     private provider: ConnectionsProvider;
 
     constructor(props) {
@@ -59,7 +60,7 @@ export class Form extends React.Component<IProps, IState> {
             this.provider.create(this.state);
         }
 
-        history.push("/home");
+        this.props.history.push("home");
     }
 
     clearFields = () => {
@@ -84,7 +85,7 @@ export class Form extends React.Component<IProps, IState> {
         const data: any = this.props.data || {};
         return (
             <StyledForm className="connection-form">
-                <Row nogutter>
+                <Row className="form-wrapper" nogutter>
                     <Col md={3} className="controls">
                         <Button
                             className="save green"
@@ -92,7 +93,7 @@ export class Form extends React.Component<IProps, IState> {
                             icon="save"
                         >
                             Save
-                    </Button>
+                        </Button>
                         <Button onClick={this.clearFields}>Clear fields</Button>
                         <Button onClick={this.setDefaults}>Set defaults</Button>
                     </Col>

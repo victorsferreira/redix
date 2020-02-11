@@ -1,12 +1,14 @@
 const { app, BrowserWindow, Menu, Tray } = require('electron');
-
+const path = require('path');
 const isDev = process.env.NODE_ENV === 'dev';
 
 let win;
 
 let tray = null
 function createWindow() {
-    tray = new Tray('./src/icon/512x512.png');
+    const trayImagePath = path.join(__dirname, '..', 'src/assets/512x512.png');
+    tray = new Tray(trayImagePath);
+    
     const contextMenu = Menu.buildFromTemplate([
         {
             label: 'Open', type: 'normal', click: () => {
@@ -37,7 +39,8 @@ function createWindow() {
         width: 1000,
         height: 750,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            // sandbox: true
         }
     });
 
@@ -45,6 +48,7 @@ function createWindow() {
         'http://localhost:3000/' :
         `file://${path.join(__dirname, '../build/index.html')}`;
 
+    console.log(`Will create window ${url}`);
     win.loadURL(url);
     win.setAutoHideMenuBar(true);
     win.removeMenu();

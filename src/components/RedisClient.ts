@@ -1,5 +1,7 @@
 const redis = (window as any).require('redis');
 
+export class RedisClientError extends Error {}
+
 export class RedisClient {
     private client: any;
 
@@ -7,35 +9,46 @@ export class RedisClient {
 
     }
 
-    async connect(config: any = {}) {
+    connect(config: any = {}) {
         if (this.client) {
             // Disconnect if it is already connected
             this.client.end();
         }
 
         const { host, port, username, password } = config;
-        this.client = await redis.createClient({
-            host, port, username, password,
-            retry_strategy: (options) => {
-                if (options.error) {
-                    alert(`ERROR: ${options.error.code}`);
+
+        console.log("Redis will connect", config.name);
+
+        return new Promise((resolve, reject) => {
+            this.client = redis.createClient({
+                host, port, username, password,
+                retry_strategy: (options) => {
+                    if (options.error) {
+                        return new RedisClientError(options.error);
+                    }
+
+                    return false;
                 }
+            });
 
-                return false;
-            }
-        });
+            this.client.on("error", function (error) {
+                reject(error);
+            });
 
-        console.log("Redis has connected", config.name);
+            this.client.on("connect", function (error) {
+                resolve();
+            });
+        })
     }
 
-    disconnect(){
-        if(this.client) this.client.end();
+    disconnect() {
+        if (this.client) this.client.end();
     }
 
     getAll(): Promise<any> {
         console.log("Executing GetAll");
         return new Promise((resolve, reject) => {
-            this.client.keys('*',(err, data) => {
+            this.client.keys('*', (err, data) => {
                 if (err) reject(err);
                 else resolve(data);
             });

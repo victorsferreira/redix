@@ -11,6 +11,7 @@ const provider = new ConnectionsProvider();
 const list = provider.list();
 connectionsStore.set(list);
 
+console.group("Provider will be rendered");
 ReactDOM.render((
 <Provider connectionsStore={ connectionsStore }>
     <App/>
