@@ -5,6 +5,7 @@ import { Button } from "./Button";
 import { StyledForm } from "./styled";
 import { Col, Row } from "react-grid-system";
 import { CustomComponent } from "./CustomComponent";
+import { TextButton } from "./TextButton";
 
 interface IProps {
     data?: IConnection;
@@ -76,7 +77,7 @@ export class Form extends CustomComponent<IProps, IState> {
         this.setState({
             name: "New connection",
             host: "localhost",
-            port: "5379",
+            port: "6379",
             password: ""
         });
     }
@@ -85,8 +86,8 @@ export class Form extends CustomComponent<IProps, IState> {
         const data: any = this.props.data || {};
         return (
             <StyledForm className="connection-form">
-                <Row className="form-wrapper" nogutter>
-                    <Col md={3} className="controls">
+                <Row className="form-wrapper">
+                    <Col md={2} className="buttons">
                         <Button
                             className="save green"
                             onClick={this.save.bind(this)}
@@ -94,15 +95,19 @@ export class Form extends CustomComponent<IProps, IState> {
                         >
                             Save
                         </Button>
-                        <Button onClick={this.clearFields}>Clear fields</Button>
-                        <Button onClick={this.setDefaults}>Set defaults</Button>
+                        <div className="options">
+                            <TextButton small onClick={this.clearFields}>Clear fields</TextButton>
+                            <TextButton small onClick={this.setDefaults}>Set defaults</TextButton>
+                        </div>
                     </Col>
 
-                    <Col md={9} className="main">
-                        <input value={this.state.name} onChange={this.onChangeHandler.bind(this, 'name')} placeholder="Name" type="text" />
-                        <input value={this.state.host} onChange={this.onChangeHandler.bind(this, 'host')} placeholder="Host" type="text" />
-                        <input value={this.state.port} onChange={this.onChangeHandler.bind(this, 'port')} placeholder="Port" type="text" />
-                        <input value={this.state.password} onChange={this.onChangeHandler.bind(this, 'password')} placeholder="Password" type="password" />
+                    <Col md={10} className="inputs-wrapper">
+                        <Row className="inputs">
+                            <Col md={6}><input value={this.state.name} onChange={this.onChangeHandler.bind(this, 'name')} placeholder="Name" type="text" /></Col>
+                            <Col md={6}><input value={this.state.host} onChange={this.onChangeHandler.bind(this, 'host')} placeholder="Host" type="text" /></Col>
+                            <Col md={6}><input value={this.state.port} onChange={this.onChangeHandler.bind(this, 'port')} placeholder="Port" type="text" /></Col>
+                            <Col md={6}><input value={this.state.password} onChange={this.onChangeHandler.bind(this, 'password')} placeholder="Password" type="password" /></Col>
+                        </Row>
                     </Col>
                 </Row>
             </StyledForm>

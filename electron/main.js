@@ -1,6 +1,9 @@
 const { app, BrowserWindow, Menu, Tray } = require('electron');
+
 const path = require('path');
 const isDev = process.env.NODE_ENV === 'dev';
+const packageJson = require('../package');
+global.packageJson = packageJson;
 
 let win;
 
@@ -8,7 +11,7 @@ let tray = null
 function createWindow() {
     const trayImagePath = path.join(__dirname, '..', 'src/assets/512x512.png');
     tray = new Tray(trayImagePath);
-    
+
     const contextMenu = Menu.buildFromTemplate([
         {
             label: 'Open', type: 'normal', click: () => {
@@ -16,6 +19,13 @@ function createWindow() {
                     console.log("Will show window");
                     win.show();
                 }
+            }
+        },
+        { type: 'separator' },
+        {
+            label: 'About', type: 'normal', click: () => {
+                win.webContents.send('open-about-page', true);
+                console.log("vai abrir about")
             }
         },
         { type: 'separator' },
@@ -36,12 +46,18 @@ function createWindow() {
     // win.loadFile('./src/index.html');
 
     win = new BrowserWindow({
-        width: 1000,
+        width: 1150,
         height: 750,
         webPreferences: {
             nodeIntegration: true,
             // sandbox: true
         }
+    });
+
+    win.webContents.on('new-window', function (e, url) {
+        e.preventDefault();
+        console.log("will open external link")
+        require('electron').shell.openExternal(url);
     });
 
     const url = isDev ?
@@ -52,7 +68,8 @@ function createWindow() {
     win.loadURL(url);
     win.setAutoHideMenuBar(true);
     win.removeMenu();
-    win.webContents.openDevTools();
+    win.setMenu(null);
+    if(isDev) win.webContents.openDevTools();
 
     // win.on('closed', (e) => { });
 

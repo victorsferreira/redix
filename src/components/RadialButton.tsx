@@ -89,6 +89,7 @@ export class RadialButton extends CustomComponent<IProps, any> {
         return (
             <StyledRadialButton
                 {...props}
+                type="button"
                 onClick={this.onClickHandler}
             >
                 <Icon size={iconSize} />

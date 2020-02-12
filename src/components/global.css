@@ -1,89 +1,24 @@
 body, html{
     padding: 0;
     margin: 0;
-    min-width: 1000px;
 }
 
 #root {    
     width: 100vw;
+    min-width: 1000px;
     overflow: hidden;
+}
+
+#create, #connection, #edit, #home{
+    width: 100%;
 }
 
 * {
     font-family: 'Roboto', sans-serif;
     color: white;
-    font-size: 16px;
+    font-size: 14px;
     box-sizing: border-box;
     letter-spacing: .2px;
-}
-/* 
-.sidebar .connection-item.selected {
-    background: #11161b;
-} */
-
-
-/* 
-.connection-item{
-    border-radius: 5px;
-    padding: 5px;
-    float: left;
-    width: 100%;
-}
-
-.connection-item:hover{
-    background: #7f8c8d; 
-}
-
-.connection-item span{
-    display: inline-block;
-    width: 75%;
-}
-
-.connection-item .controls{
-    width: 25%;
-    display: inline-block;
-    float: right;
-}
-
-.connection-item .controls .button{
-    padding: 0;
-    background: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    text-align: center;
-    margin-left: 5px;
-}
-
-.connection-item .controls .button svg{
-    margin-left: 0px;
-}
-
-.connection-item .controls .button:hover{
-    background: #f1c40f;    
-} */
-/* 
-.content{
-    height: 100vh;
-    width: 75%;
-    float: left;
-    background: #34495e;
-} */
-/* 
-.connection-item .name{
-    cursor: pointer;
-    width: 150px;
-    overflow: hidden;
-} */
-
-.topbar, .connection-form{
-    /* background: #1d1e20;    
-    width: 100%;
-    padding: 20px; */
-}
-
-button svg, .button svg{
-    margin-left: 5px;
 }
 
 .button.create-connection{
@@ -94,6 +29,10 @@ button svg, .button svg{
 
 h2{
     font-size: 26px;
+}
+
+h1{
+    font-size: 32px;
 }
 
 .home-content{

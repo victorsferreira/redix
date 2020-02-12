@@ -6,6 +6,7 @@ export const colors = {
     midGray: '#2F3031',
     lightGray: '#39393A',
     steel: '#303030',
+    black: '#1F1F1F',
     green: '#007C21',
     red: '#C0392B'
 };

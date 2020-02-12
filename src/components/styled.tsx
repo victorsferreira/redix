@@ -4,7 +4,7 @@ import { colors } from './styleGuide';
 const darkGray = '#1d1e1f';
 const midGray = '#2f3031';
 const lightGray = '#39393a';
-const borderLight = 'rgb(80,80,80)';
+const borderLight = 'rgb(60,60,60)';
 const carrot = '#e67e22';
 const orange = '#f39c12';
 
@@ -22,12 +22,15 @@ export const StyledGeneric = styled.div`
 
 export const StyledSidebar = styled.div`
     height: 100vh;
-    width: 25vw;
+    width: 25%;
     float: left;
     background: ${darkGray};
-    overflow-x: auto;
     position: relative;
-    padding-bottom: 70px;
+
+    .connection-list{
+        height: calc(100% - 80px);
+        overflow-x: auto;
+    }
 
     .create-connection{
         svg{
@@ -36,22 +39,41 @@ export const StyledSidebar = styled.div`
     }
 
     .add-controls{
-        padding: 10px;
+        padding: 15px;
         width: 100%;
         display: flex;
         bottom: 0px;
         position: absolute;
         justify-content: center;
     }
+
+    .no-connections {
+        text-align: center;
+        padding: 25px 20px;
+
+        .title {
+            display: inline-block;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle{
+            display: inline-block;
+            font-size: 12px;
+        }
+    }
 `;
 
 export const StyledTextButton = styled.button`
-    color: ${colors.darkYellow};
-    font-weight: bold;
+    color: ${colors.gold};
+    // font-weight: bold;
     background: none;
     border: none;
     cursor: pointer;
     outline: none;
+    display: inline-flex;
+    padding: 0;
+
     ${props => props.small && `font-size: 12px;`}
     ${props => props.medium && `font-size: 16px;`}
     ${props => props.big && `font-size: 20px;`}
@@ -61,19 +83,57 @@ export const StyledTextButton = styled.button`
     }
 `;
 
-export const StyledForm = styled.form`
+export const StyledContent = styled.div`
+    height: 100vh;
+    width: 75%;
+    float: left;
+    background: ${midGray};
+`;
+
+export const StyledItem = styled(StyledGeneric)`
+    float: left;
+    width: 100%;
+    padding: 10px;
+    border-bottom 1px solid ${borderLight};
+`;
+
+export const StyledGenericForm = styled.form`
     width: 100%;
     background: ${darkGray};
     border-left: 1px solid ${lightGray};
     border-bottom: 1px solid ${borderLight};
-
-    // height: 120px;
+    padding: 10px 0;
     display: flex;
     justify-content: center;
     align-items: center;
 
     .form-wrapper{
         width: 100%;
+
+        .buttons {
+            .run, .save {
+                padding: 20px 10px;
+                width: 100%;
+                span {
+                    font-size: 16px;
+                    text-transform: uppercase;
+                }
+    
+                svg {
+                    margin-right: 10px;
+                }
+            }
+            
+            .options{
+                margin-top: 10px;
+                width: 100%;
+                float: left;
+
+                .text-button-c{
+                    width: 100%;
+                }
+            }
+        }
 
         .inputs-wrapper {
             width: 100%;
@@ -90,7 +150,6 @@ export const StyledForm = styled.form`
                 }
             }
         }
-
     }
 
     input[type="text"], input[type="password"], select {
@@ -106,94 +165,19 @@ export const StyledForm = styled.form`
     
         border: 0;
         outline: 0;
-    }
 
-    option{
-        height: 40px;
-        color: ${darkGray};
-    }
-
-    .main{
-        width: 80%;
-        float: left;
-        padding: 8px 20px;
-    }
-
-    .controls{
-        width: 20%;
-        float: left;
-        height: 120px;
-
-        .button{
-            width: 100%;
-            border-bottom: 1px solid ${orange};
-
-            &:last-child{
-                border: 0;
-            }
-
-            height: 36px;
+        option{
+            height: 40px;
+            color: ${darkGray};
         }
     }
 `;
 
-export const StyledTopbar = styled(StyledForm)`
-    padding: 10px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
-    .buttons {
-        .run {
-            padding: 20px 10px;
-            width: 100%;
-            span {
-                font-size: 16px;
-                text-transform: uppercase;
-            }
-
-            svg {
-                margin-right: 10px;
-            }
-        }
-
-        .options{
-            margin-top: 10px;
-            width: 100%;
-            float: left;
-
-            button {
-                // margin-bottom: 5px;
-            }
-        }
-    }
-
-    .controls{
-        .button{
-            &.run{
-                line-height: 29px;
-                height: 49px;
-
-                svg{
-                    margin-top: 5px;
-                }
-            }
-        }
-    }
+export const StyledForm = styled(StyledGenericForm)`
 `;
 
-export const StyledContent = styled.div`
-    height: 100vh;
-    width: 75vw;
-    float: left;
-    background: ${midGray};
-`;
-
-export const StyledItem = styled(StyledGeneric)`
-    float: left;
-    width: 100%;
-    padding: 10px;
-    border-bottom 1px solid ${borderLight};
+export const StyledTopbar = styled(StyledGenericForm)`
 `;
 
 export const StyledResult = styled.div`
@@ -206,61 +190,106 @@ export const StyledResult = styled.div`
     }
 
     .output{
+        background: ${colors.black};
+        box-shadow: 0px 4px 6px rgba(10,10,10,.6);
+        border-left: 1px solid ${borderLight};
+        display: flex;
 
         .output-message{
+            height: 32px;
             display: flex;
             align-items: center;
         }
-
-        display: flex;
 
         strong{
             margin-right: 5px;
             margin-left: 5px;
         }
 
-       .icon-c{
+       .output-wrapper{
+            width: 100%;
+       }
 
+       .results-info{
+           padding: 0;
+           display: flex;
+           align-items: flex-end;
+           width: 100%;
+           flex-direction: column;
+
+           .results-count{
+                width: 100%;
+           }
+
+            .show-as-json{
+                width: 100%;
+
+                .icon-c{
+                    margin-left: 5px;
+                }
+            }
        }
     }
 
     .result-set{
+        margin-top: 5px;
+
         header {
             background: ${lightGray}
         }
 
         .list{
             overflow-x: auto;
-            max-height: 480px;
+            max-height: calc(100vh - 180px);
         }
     }
 `;
 
 export const StyledKeyValueItem = styled(StyledItem)`
-    margin-bottom: 10px;
-
     .key {
         font-weight: bold;
         margin-bottom: 3px;
         height: 20px;
-        width: 80%;
+        width: 100%;
         float: left;
     }
 
     .controls{
-        width: 20%;
+        width: 100%;
         float: left;
-        .button{
-            float: right;
-            height: 20px;            
-            width: auto;
-            padding: 3px 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        button{
+            margin-top: 3px;
+        }
+
+        button:first-child{
+            margin-top: 0px;
         }
     }
 
     .value{
         width: 100%;
         float: left;
+    }
+
+    .is-deleted{
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+
+        span{
+            justify-content: center;
+            align-items: center;
+            display: flex;
+
+            .icon-c{
+                margin-left: 5px;
+            }
+        }
     }
 `;
 
@@ -317,7 +346,7 @@ export const StyledRadialButton = styled.button`
     border-radius: ${props => props.size / 2}px;
     border: none;
     outline: none;
-    background: ${colors.darkYellow};
+    background: ${colors.gold};
 
     &:hover{
         background: ${colors.yellow};
@@ -333,15 +362,15 @@ export const StyledConnectionItem = styled(StyledItem)`
     width: 100%;
     padding: 0;
 
+    &:hover, &.selected{
+        background: ${midGray};
+    }
+
     .main {
         width: 85%
         float: left;
         padding: 5px 10px;
         cursor: pointer;
-
-        &:hover, &.selected{
-            background: ${midGray};
-        }
 
         .name, .host, .port {
             height: 25px;
@@ -353,14 +382,15 @@ export const StyledConnectionItem = styled(StyledItem)`
             float: left;
             width: 100%;
             font-weight: 500;
+            font-size: 16px;
         }
     
         .host{
-            width: 70%;
+            width: 80%;
         }
     
         .port{
-            width: 30%;
+            width: 20%;
         }
     
         .host, .port {

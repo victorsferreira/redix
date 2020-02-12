@@ -85,6 +85,7 @@ export class Button extends React.Component<IProps> {
             <StyledButton
                 as={as}
                 {...props}
+                type="button"
                 className={`button ${props.className}`}
             >
                 {this.props.icon && <Icon {...iconProps} />}

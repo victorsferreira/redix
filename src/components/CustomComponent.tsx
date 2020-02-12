@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, ComponentClass, HTMLAttributes } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 export interface IRouteProps {
@@ -9,13 +9,16 @@ export interface IConnectionObserverProps {
     connectionsStore?: any;
 }
 
-export class CustomComponent<U, T> extends React.Component<U, T> {
+export class CustomComponent<U, T> extends React.Component<HTMLAttributes<any> & ComponentClass & U, T> {
     protected history: any;
 
     constructor(props) {
         super(props);
+        this.history = (global as any).ReactRouterDom.history;
+    }
 
-        this.history = (global as any).HISTORY;
+    cn (className) { 
+        return `${this.props.className} ${className}`;
     }
 
     go(path, params = {}) {

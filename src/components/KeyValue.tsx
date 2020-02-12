@@ -4,6 +4,10 @@ import { RedisClient, client as redisClient } from "./RedisClient";
 import ReactJson from 'react-json-view'
 import { Button } from "./Button";
 import { StyledKeyValueItem } from "./styled";
+import { RadialButton } from "./RadialButton";
+import { colors } from "./styleGuide";
+import { Icon } from "./Icon";
+import { Row, Col } from "react-grid-system";
 
 interface IProps extends IConnectionObserverProps {
     recordKey: string;
@@ -15,6 +19,7 @@ interface IState {
     recordKey: string;
     value: any;
     showAsJson: boolean;
+    isDeleted: boolean;
 }
 
 export class KeyValue extends CustomComponent<IProps, IState> {
@@ -27,9 +32,15 @@ export class KeyValue extends CustomComponent<IProps, IState> {
             recordKey: "",
             value: null,
             showAsJson: false,
+            isDeleted: false
         };
 
         this.redisClient = redisClient;
+    }
+
+    deleteKey = async () => {
+        const result = await this.redisClient.delete(this.state.recordKey);
+        if (result) this.setState({ isDeleted: true });
     }
 
     getValue = async () => {
@@ -43,7 +54,7 @@ export class KeyValue extends CustomComponent<IProps, IState> {
         this.setState({ recordKey, value, showAsJson });
     }
 
-    loadShowAsJsonProps(){
+    loadShowAsJsonProps() {
         const { showAsJson } = this.props;
         this.setState({ showAsJson });
     }
@@ -55,12 +66,12 @@ export class KeyValue extends CustomComponent<IProps, IState> {
     componentDidUpdate(props) {
         if (
             props.recordKey !== this.props.recordKey ||
-            props.value !== this.props.value            
+            props.value !== this.props.value
         ) {
             this.loadPropsToState();
         }
 
-        if(props.showAsJson !== this.props.showAsJson) {
+        if (props.showAsJson !== this.props.showAsJson) {
             this.loadShowAsJsonProps();
         }
     }
@@ -75,6 +86,7 @@ export class KeyValue extends CustomComponent<IProps, IState> {
                 console.log("JSON value", jsonValue);
             }
         } catch (err) {
+            console.log(jsonValue, 'jsonValue');
             console.log("Could not parse JSON");
         }
 
@@ -82,23 +94,43 @@ export class KeyValue extends CustomComponent<IProps, IState> {
 
         return (
             <StyledKeyValueItem className="key-value-item">
-                <div className="key">{this.state.recordKey}</div>
+                <Row nogutter>
+                    <Col md={11}>
+                        <div className="key">{this.state.recordKey}</div>
+                    </Col>
+                    <Col md={1}>
+                        {
+                            this.state.isDeleted === false && (
+                                <div className="controls">
+                                    {
+                                        this.state.value === null && (
+                                            <RadialButton small onClick={this.getValue.bind(this)} icon="get" />
+                                        )
+                                    }
 
-                <div className="controls">
-                    {
-                        this.state.value === null && (
-                            <Button onClick={this.getValue.bind(this)} icon="get"></Button>
-                        )
-                    }
-                </div>
+                                    <RadialButton small onClick={this.deleteKey.bind(this)} icon="delete" />
+                                </div>
+                            )
+                        }
+                    </Col>
+                    <Col md={12}>
+                        <div className="value">
+                            {
+                                jsonValue && typeof (jsonValue) === 'object' ?
+                                    <ReactJson src={jsonValue} /> :
+                                    <span>{this.state.value}</span>
+                            }
 
-                <div className="value">
-                    {
-                        jsonValue ?
-                            <ReactJson src={jsonValue} /> :
-                            <span>{this.state.value}</span>
-                    }
-                </div>
+                            {
+                                this.state.isDeleted && (
+                                    <div className="is-deleted">
+                                        <span>Item was deleted <Icon type="error" small color={colors.red} /></span>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    </Col>
+                </Row>
             </StyledKeyValueItem>
         );
     }

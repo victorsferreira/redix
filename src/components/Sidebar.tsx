@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { IConnectionCollection } from "./types";
 import { ConnectionsProvider } from "./ConnectionsProvider";
 import { inject, observer } from "mobx-react";
@@ -8,6 +8,7 @@ import ConnectionsStore from "./ConnectionsStore";
 import { StyledSidebar } from "./styled";
 import { ConnectionItem } from "./ConnectionItem";
 import { RadialButton } from "./RadialButton";
+import { TextButton } from "./TextButton";
 // import { RadialButton } from './RadialButton';
 
 interface IProps extends IConnectionObserverProps {
@@ -79,6 +80,19 @@ export class Sidebar extends CustomComponent<IProps, IState> {
                                 {...connection}
                             />
                         })
+                    }
+
+                    {
+                        connections.length === 0 && (
+                            <div className="no-connections">
+                                <span className="title">
+                                    No connections yet
+                                </span>
+                                <span className="subtitle">
+                                    <TextButton small link="create">Create your first connection</TextButton> to start using <strong>Redix</strong>
+                                </span>
+                            </div>
+                        )
                     }
                 </div>
 

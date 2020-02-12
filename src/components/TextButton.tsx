@@ -32,10 +32,10 @@ export class TextButton extends CustomComponent<IProps, any> {
         return (
             <StyledTextButton
                 {...props}
+                type="button"
+                className={this.cn('text-button-c')}
                 onClick={this.onClickHandler}
-            >
-                {this.props.children}
-            </StyledTextButton>
+            >{this.props.children}</StyledTextButton>
         );
     }
 }

@@ -285,7 +285,7 @@ export class Connection extends CustomComponent<IProps, IState> {
 
   render() {
     return (
-      <div className="Create">
+      <div id="connection" className="Create">
         <Sidebar {...this.props} />
         <StyledContent className="content">
           <Topbar
