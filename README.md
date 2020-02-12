@@ -2,7 +2,7 @@
 
 Redix is a minimalistic opensource client for the NoSQL database Redis.
 
-Please check our [Official Website](https://pages.github.com/) for the latest releases.
+Please check our [Official Website](https://victorsferreira.github.io/) for the latest releases.
 
 Redix is currently available for Ubuntu. 
 
