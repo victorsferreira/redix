@@ -48,7 +48,8 @@
     "pack": "electron-builder --dir",
     "build-electron": "DEBUG=electron-builder electron-builder",
     "copy-files": "cp -r electron/main.js build/electron.js",
-    "dist": "yarn build && yarn copy-files && yarn build-electron"
+    "dist": "yarn build && yarn copy-files && yarn build-electron",
+    "package": "yarn dist"
   },
   "eslintConfig": {
     "extends": "react-app"
