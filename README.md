@@ -1,5 +1,7 @@
 ### Redix
 
+![Image of Yaktocat](https://github.com/victorsferreira/redix/blob/master/RedixLogo512x512.png)
+
 Redix is a minimalistic opensource client for the NoSQL database Redis.
 
 Please check our [Official Website](https://victorsferreira.github.io/) for the latest releases.

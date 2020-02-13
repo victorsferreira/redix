@@ -1,7 +1,7 @@
 import React from 'react';
 import { Sidebar } from "./Sidebar";
-import { Link } from "react-router-dom";
 import { StyledContent } from "./styled";
+import logo from '../assets/512x512.png';
 
 export class Home extends React.Component {
   render() {
@@ -12,12 +12,17 @@ export class Home extends React.Component {
           <div className="home-content">
             <h2>
               Select a connection to get started!
-          </h2>
+            </h2>
             <p>
-              Need help using <strong>Redix</strong>? <br />
+              Need help using <strong>Redix</strong>?
+            </p>
+            <p>
               Please check out our <a target="_blank" href="https://github.com/victorsferreira/redix">Github</a>, create an issue, <br />
               browse for answers and submit your Pull Request!
-          </p>
+            </p>
+            <br />
+            <br />
+            <img className="logo small" src={logo} />
           </div>
         </StyledContent>
       </div>

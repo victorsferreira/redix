@@ -3,6 +3,7 @@ import { Sidebar } from "./Sidebar";
 import { StyledContent } from "./styled";
 import { Row, Col } from 'react-grid-system';
 import styled from 'styled-components';
+import logo from '../assets/512x512.png';
 
 const { remote } = (window as any).require("electron");
 const { app } = remote;
@@ -29,6 +30,9 @@ export class About extends React.Component {
                   Please, check our <a target="_blank" href="https://github.com/victorsferreira/redix">Github</a> for critics, contributions and issues and the <a target="_blank" href="https://victorsferreira.github.io/">Official Page</a> for latest news and download the newest version.
                 </p>
                 <p>Current version: {app.getVersion()}</p>
+                <br />
+                <br />
+                <img className="logo small" src={logo} />
               </Col>
             </Row>
           </StyledAboutContent>

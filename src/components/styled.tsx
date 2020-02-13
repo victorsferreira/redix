@@ -88,6 +88,12 @@ export const StyledContent = styled.div`
     width: 75%;
     float: left;
     background: ${midGray};
+
+    .logo {
+        &.small {
+            width: 120px;
+        }
+    }
 `;
 
 export const StyledItem = styled(StyledGeneric)`
