@@ -1,0 +1,50 @@
+{
+  "name": "fill-range",
+  "description": "Fill in a range of numbers or letters, optionally passing an increment or `step` to use, or create a regex-compatible range with `options.toRegex`",
+  "version": "4.0.0",
+  "homepage": "https://github.com/jonschlinkert/fill-range",
+  "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
+  "repository": "jonschlinkert/fill-range",
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "dependencies": {
+    "extend-shallow": "^2.0.1",
+    "is-number": "^3.0.0",
+    "repeat-string": "^1.6.1",
+    "to-regex-range": "^2.1.0"
+  },
+  "devDependencies": {
+    "ansi-cyan": "^0.1.1",
+    "benchmarked": "^1.0.0",
+    "gulp-format-md": "^0.1.12",
+    "minimist": "^1.2.0",
+    "mocha": "^3.2.0"
+  },
+  "verb": {
+    "related": {
+      "list": [
+        "braces",
+        "expand-range",
+        "micromatch",
+        "to-regex-range"
+      ]
+    },
+    "toc": true,
+    "layout": "default",
+    "tasks": [
+      "readme"
+    ],
+    "plugins": [
+      "gulp-format-md"
+    ],
+    "lint": {
+      "reflinks": true
+    }
+  }
+}

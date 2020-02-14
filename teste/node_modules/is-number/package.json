@@ -1,0 +1,52 @@
+{
+  "name": "is-number",
+  "description": "Returns true if the value is a number. comprehensive tests.",
+  "version": "3.0.0",
+  "homepage": "https://github.com/jonschlinkert/is-number",
+  "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
+  "repository": "jonschlinkert/is-number",
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "dependencies": {
+    "kind-of": "^3.0.2"
+  },
+  "devDependencies": {
+    "benchmarked": "^0.2.5",
+    "chalk": "^1.1.3",
+    "gulp-format-md": "^0.1.10",
+    "mocha": "^3.0.2"
+  },
+  "verb": {
+    "related": {
+      "list": [
+        "even",
+        "is-even",
+        "is-odd",
+        "is-primitive",
+        "kind-of",
+        "odd"
+      ]
+    },
+    "toc": false,
+    "layout": "default",
+    "tasks": [
+      "readme"
+    ],
+    "plugins": [
+      "gulp-format-md"
+    ],
+    "lint": {
+      "reflinks": true
+    },
+    "reflinks": [
+      "verb",
+      "verb-generate-readme"
+    ]
+  }
+}

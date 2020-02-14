@@ -1,0 +1,46 @@
+{
+  "name": "is-descriptor",
+  "description": "Returns true if a value has the characteristics of a valid JavaScript descriptor. Works for data descriptors and accessor descriptors.",
+  "version": "1.0.2",
+  "homepage": "https://github.com/jonschlinkert/is-descriptor",
+  "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
+  "repository": "jonschlinkert/is-descriptor",
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "dependencies": {
+    "is-accessor-descriptor": "^1.0.0",
+    "is-data-descriptor": "^1.0.0",
+    "kind-of": "^6.0.2"
+  },
+  "devDependencies": {
+    "gulp-format-md": "^1.0.0",
+    "mocha": "^3.5.3"
+  },
+  "verb": {
+    "related": {
+      "list": [
+        "is-accessor-descriptor",
+        "is-data-descriptor",
+        "is-descriptor",
+        "isobject"
+      ]
+    },
+    "plugins": [
+      "gulp-format-md"
+    ],
+    "toc": false,
+    "layout": "default",
+    "tasks": [
+      "readme"
+    ],
+    "lint": {
+      "reflinks": true
+    }
+  }
+}

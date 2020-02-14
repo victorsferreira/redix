@@ -20,9 +20,6 @@ export class Home extends React.Component {
               Please check out our <a target="_blank" href="https://github.com/victorsferreira/redix">Github</a>, create an issue, <br />
               browse for answers and submit your Pull Request!
             </p>
-            <br />
-            <br />
-            <img className="logo small" src={logo} />
           </div>
         </StyledContent>
       </div>

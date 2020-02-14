@@ -1,0 +1,34 @@
+{
+  "name": "to-object-path",
+  "description": "Create an object path from a list or array of strings.",
+  "version": "0.3.0",
+  "homepage": "https://github.com/jonschlinkert/to-object-path",
+  "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
+  "repository": "jonschlinkert/to-object-path",
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "dependencies": {
+    "kind-of": "^3.0.2"
+  },
+  "devDependencies": {
+    "base": "^0.6.7",
+    "mocha": "*"
+  },
+  "verb": {
+    "related": {
+      "list": [
+        "get-value",
+        "set-value",
+        "has-value",
+        "omit-value",
+        "unset-value"
+      ]
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "name": "redix-app",
+  "name": "redix",
   "version": "0.2.0",
   "homepage": "./",
   "author": {
@@ -47,7 +47,7 @@
     "eject": "react-scripts eject",
     "pack": "electron-builder --dir",
     "build-electron": "DEBUG=electron-builder electron-builder",
-    "copy-files": "cp -r electron/main.js build/electron.js",
+    "copy-files": "cp -r electron/main.js build/electron.js && cp -r src/assets build/icons",
     "dist": "yarn build && yarn copy-files && yarn build-electron",
     "package": "yarn dist"
   },
@@ -77,7 +77,7 @@
     "linux": {
       "category": "Training",
       "description": "Minimalistic Redis Client",
-      "icon": "build/src/assets/512x512.png",
+      "icon": "./build/icons",
       "target": [
         "AppImage",
         "deb"
