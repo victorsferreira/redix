@@ -8,7 +8,7 @@ Please check our [Official Website](https://victorsferreira.github.io/) for the 
 
 **Currently available for:** *Ubuntu*. 
 
-**Latest version:** *0.1.0*.
+**Latest version:** *0.2.0*.
 
 ### Upcoming features and changes
 

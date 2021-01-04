@@ -12,7 +12,7 @@
   "main": "./electron/main.js",
   "devDependencies": {
     "electron": "^5.0.8",
-    "electron-builder": "^21.1.5"
+    "electron-builder": "^22.9.1"
   },
   "dependencies": {
     "@types/jest": "24.0.15",
@@ -46,10 +46,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "pack": "electron-builder --dir",
-    "build-electron": "DEBUG=electron-builder electron-builder",
+    "dist": "DEBUG=electron-builder electron-builder -p never -lw",
+    "clear": "rm -rf build/* dist/*; clear",
     "copy-files": "cp -r electron/main.js build/electron.js && cp -r src/assets build/icons",
-    "dist": "yarn build && yarn copy-files && yarn build-electron",
-    "package": "yarn dist"
+    "build-electron": "yarn clear && yarn build && yarn copy-files && yarn dist"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -75,12 +75,17 @@
       "src/assets/**/*"
     ],
     "linux": {
-      "category": "Training",
       "description": "Minimalistic Redis Client",
       "icon": "./build/icons",
       "target": [
         "AppImage",
         "deb"
+      ]
+    },
+    "win": {
+      "icon": "./build/icons",
+      "target": [
+        "nsis"
       ]
     }
   }
