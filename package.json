@@ -30,7 +30,7 @@
     "react-icons": "^3.7.0",
     "react-json-view": "^1.19.1",
     "react-router-dom": "^4",
-    "react-scripts": "3.0.1",
+    "react-scripts": "5.0.1",
     "redis": "^2.8.0",
     "styled-components": "^4.3.2",
     "typescript": "3.5.2",
